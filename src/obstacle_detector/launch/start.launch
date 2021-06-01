@@ -1,0 +1,11 @@
+<launch>
+        <!-- Publish 2 channels of joint states -->
+        <node pkg="obstacle_detector" name="joint_detector" type="joint_detector"/>
+
+        <!-- Publish 2 channels of human spheres -->
+        <node pkg="obstacle_detector" name="obstacle_detector" type="sphere_detector" output="screen"/>
+
+	<!-- run gazebo stopper -->
+        <node pkg="obstacle_detector" name="gazebo_stopper" type="gazebo_stopper" />
+
+</launch>
