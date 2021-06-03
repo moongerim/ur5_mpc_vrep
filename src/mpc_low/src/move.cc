@@ -89,7 +89,7 @@ class GoalFollower
     // Data Members 
     ros::Publisher chatter_pub;
 
-    double robot_spheres[8] = {0.25, 0.13, 0.13, 0.13, 0.13, 0.15, 0.12, 0.18};
+    double robot_spheres[8] = {0.29, 0.13, 0.13, 0.13, 0.13, 0.15, 0.12, 0.18};
     double human_sphere[56]= {10.0517,   0.5220,   1.0895,   0.1500,
                             10.0658,   0.4526,   0.8624,   0.6010,
                             10.0844,   0.7044,   0.9207,   0.5010,
@@ -257,10 +257,10 @@ class GoalFollower
 
 int main(int argc, char **argv)
 {
-  distfile.open("data_0106_dist.csv", ios::out); 
-  ctpfile.open("data_0106_ctp.csv", ios::out); 
-  humanfile.open("data_0106_human.csv",ios::out);
-  jpfile.open("data_0106_jp.csv",ios::out);
+  distfile.open("data_dist.csv", ios::out); 
+  ctpfile.open("data_ctp.csv", ios::out); 
+  humanfile.open("data_human.csv",ios::out);
+  jpfile.open("data_jp.csv",ios::out);
   ros::init(argc, argv, "joint_controller_low");
 
   ros::NodeHandle n;
@@ -274,7 +274,7 @@ int main(int argc, char **argv)
   std_msgs::Int32 msg;
   msg.data = 0;
   PauseLow.publish(msg);
-
+  
   ROS_INFO("Goal default to: %.3f, %.3f, %.3f, %.3f, %.3f, %.3f", 
 	my_follower.goal[0], my_follower.goal[1], my_follower.goal[2],
         my_follower.goal[3], my_follower.goal[4], my_follower.goal[5]);
@@ -318,7 +318,7 @@ int main(int argc, char **argv)
   {
     double currentState_targetValue[68];
     double tracking_goal[60];
-
+    
     // define terminal goal
     for (int i=0; i<6; i++) my_follower.goal[i] = my_follower.goal_queue[i];
     // define tracking goal

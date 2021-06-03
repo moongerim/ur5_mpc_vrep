@@ -148,8 +148,11 @@ int main(int argc, char **argv)
 
   // goal in joint space
   // define key trajectory points
-  double read_goal[2][6] = {-0.619, -0.625, -0.591, -0.563, -0.531, -0.581,
-                            -0.2084, -0.2847, -0.225, -0.267, -0.3357, -0.1715};
+  // double read_goal[2][6] = {-0.619, -0.625, -0.591, -0.563, -0.531, -0.581,
+  //                           -0.2084, -0.2847, -0.225, -0.267, -0.3357, -0.1715};
+  double read_goal[2][6] = {-0.855, -0.855, -0.855, -0.855, -0.855, -0.855,
+                            -0.100, -0.100, -0.100, -0.100, -0.100, -0.100};
+
   double static_goal[6] = {read_goal[1][0], read_goal[1][1], read_goal[1][2], read_goal[1][3], read_goal[1][4], read_goal[1][5]};
 
   my_follower.change_goal(static_goal,6);
@@ -243,7 +246,7 @@ int main(int argc, char **argv)
         }
       }
       printf("max value %f\n",max_diff);
-      if (max_diff < 0.06) {
+      if (max_diff < 0.05) {
         ss << "Arrived";
         if (row_index==1 && task_started==1) {
           task_started = 0;
