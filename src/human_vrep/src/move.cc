@@ -63,10 +63,10 @@ int main(int argc, char **argv)
 
   while (ros::ok())
   {
-    for (int i = 0; i< 14; i++) {
-	  point_array[i*4] = -(point_array_temp[i*4] + 1.000); // x offset
-	  point_array[i*4+1] = -(point_array_temp[i*4+1] + 0.500); // y offset
-	  point_array[i*4+2] = (point_array_temp[i*4+2] - 1.200); // z offset
+    for (int i = 0; i<14; i++) {
+	  point_array[i*4] = -(point_array_temp[i*4]+1.000); // x offset
+	  point_array[i*4+1] = -(point_array_temp[i*4+1]+0.500); // y offset
+	  point_array[i*4+2] = (point_array_temp[i*4+2]-1.200); // z offset
     point_array[i*4+3] = point_array_temp[i*4+3];
     }
     // ROS_INFO("Np11 %.3f %.3f %.3f %.3f", point_array[44], point_array[45], point_array[46], point_array[47]);

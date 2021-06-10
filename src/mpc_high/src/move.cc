@@ -11,7 +11,7 @@
 using namespace std;
 
 ofstream myfile;
-ofstream goalfile;
+// ofstream goalfile;
 ofstream myperffile;
 
 double p_control = 1.0000;
@@ -32,15 +32,11 @@ float dist_v(Eigen::Vector3f v, Eigen::Vector3f w){
 	return (v-w).norm();
 }
 
-double x_pos = 0;
-double y_pos = 0;
-double z_pos = 0;
-
 Eigen::MatrixXf get_cpose(float theta_1, float theta_2, float theta_3, float theta_4, float theta_5, float theta_6){
-  Eigen::MatrixXf mat(3,9);
-  mat <<0, x_pos+0.11*sin(theta_1) + a_2*cos(theta_1)*cos(theta_2), x_pos+(cos(theta_1)*(a_3*cos(theta_2 + theta_3) + 4.0*a_2*cos(theta_2)))/4, x_pos+(cos(theta_1)*(a_3*cos(theta_2 + theta_3) + 2.0*a_2*cos(theta_2)))/2, x_pos+(cos(theta_1)*(3.0*a_3*cos(theta_2 + theta_3) + 4.0*a_2*cos(theta_2)))/4, x_pos+cos(theta_1)*(a_3*cos(theta_2 + theta_3) + a_2*cos(theta_2)), x_pos+d_4*sin(theta_1) + a_2*cos(theta_1)*cos(theta_2) + a_3*cos(theta_1)*cos(theta_2)*cos(theta_3) - 1.0*a_3*cos(theta_1)*sin(theta_2)*sin(theta_3),      x_pos+d_4*sin(theta_1) + d_5*(cos(theta_4)*(cos(theta_1)*cos(theta_2)*sin(theta_3) + cos(theta_1)*cos(theta_3)*sin(theta_2)) - 1.0*sin(theta_4)*(cos(theta_1)*sin(theta_2)*sin(theta_3) - 1.0*cos(theta_1)*cos(theta_2)*cos(theta_3))) + a_2*cos(theta_1)*cos(theta_2) + a_3*cos(theta_1)*cos(theta_2)*cos(theta_3) - 1.0*a_3*cos(theta_1)*sin(theta_2)*sin(theta_3),     x_pos+0.11*cos(theta_5)*sin(theta_1) + d_6*(cos(theta_5)*sin(theta_1) - cos(theta_2 + theta_3 + theta_4)*cos(theta_1)*sin(theta_5)) + d_4*sin(theta_1) - 0.11*cos(theta_2 + theta_3 + theta_4)*cos(theta_1)*sin(theta_5) + a_2*cos(theta_1)*cos(theta_2) + d_5*sin(theta_2 + theta_3 + theta_4)*cos(theta_1) + a_3*cos(theta_1)*cos(theta_2)*cos(theta_3) - 1.0*a_3*cos(theta_1)*sin(theta_2)*sin(theta_3),
-        0, y_pos+a_2*cos(theta_2)*sin(theta_1) - 0.11*cos(theta_1), y_pos+(sin(theta_1)*(a_3*cos(theta_2 + theta_3) + 4.0*a_2*cos(theta_2)))/4, y_pos+(sin(theta_1)*(a_3*cos(theta_2 + theta_3) + 2.0*a_2*cos(theta_2)))/2, y_pos+(sin(theta_1)*(3.0*a_3*cos(theta_2 + theta_3) + 4.0*a_2*cos(theta_2)))/4, y_pos+sin(theta_1)*(a_3*cos(theta_2 + theta_3) + a_2*cos(theta_2)), y_pos+a_2*cos(theta_2)*sin(theta_1) - 1.0*d_4*cos(theta_1) + a_3*cos(theta_2)*cos(theta_3)*sin(theta_1) - 1.0*a_3*sin(theta_1)*sin(theta_2)*sin(theta_3),  y_pos+d_5*(cos(theta_4)*(cos(theta_2)*sin(theta_1)*sin(theta_3) + cos(theta_3)*sin(theta_1)*sin(theta_2)) - 1.0*sin(theta_4)*(sin(theta_1)*sin(theta_2)*sin(theta_3) - 1.0*cos(theta_2)*cos(theta_3)*sin(theta_1))) - 1.0*d_4*cos(theta_1) + a_2*cos(theta_2)*sin(theta_1) + a_3*cos(theta_2)*cos(theta_3)*sin(theta_1) - 1.0*a_3*sin(theta_1)*sin(theta_2)*sin(theta_3), y_pos+a_2*cos(theta_2)*sin(theta_1) - 1.0*d_6*(cos(theta_1)*cos(theta_5) + cos(theta_2 + theta_3 + theta_4)*sin(theta_1)*sin(theta_5)) - 1.0*d_4*cos(theta_1) - 0.11*cos(theta_2 + theta_3 + theta_4)*sin(theta_1)*sin(theta_5) - 0.11*cos(theta_1)*cos(theta_5) + d_5*sin(theta_2 + theta_3 + theta_4)*sin(theta_1) + a_3*cos(theta_2)*cos(theta_3)*sin(theta_1) - 1.0*a_3*sin(theta_1)*sin(theta_2)*sin(theta_3),
-        0, z_pos+d_1 + a_2*sin(theta_2),                            z_pos+d_1 + 0.25*a_3*sin(theta_2 + theta_3) + a_2*sin(theta_2),             z_pos+d_1 + 0.5*a_3*sin(theta_2 + theta_3) + a_2*sin(theta_2),              z_pos+d_1 + 0.75*a_3*sin(theta_2 + theta_3) + a_2*sin(theta_2),                 z_pos+d_1 + a_3*sin(theta_2 + theta_3) + a_2*sin(theta_2),          z_pos+d_1 + a_3*sin(theta_2 + theta_3) + a_2*sin(theta_2),                                                                                                 z_pos+d_1 + a_3*sin(theta_2 + theta_3) + a_2*sin(theta_2) - 1.0*d_5*cos(theta_2 + theta_3 + theta_4),                                                                                                                                                                                                                                                                     z_pos+d_1 - sin(theta_5)*(0.11*cos(theta_2 + theta_3)*sin(theta_4) + 0.11*sin(theta_2 + theta_3)*cos(theta_4)) + a_3*sin(theta_2 + theta_3) + 1.0*d_5*(1.0*sin(theta_2 + theta_3)*sin(theta_4) - 1.0*cos(theta_2 + theta_3)*cos(theta_4)) + a_2*sin(theta_2) - 1.0*d_6*sin(theta_5)*(1.0*cos(theta_2 + theta_3)*sin(theta_4) + sin(theta_2 + theta_3)*cos(theta_4));
+  Eigen::MatrixXf mat(3,8);
+  mat <<0.11*sin(theta_1) + a_2*cos(theta_1)*cos(theta_2), (cos(theta_1)*(a_3*cos(theta_2 + theta_3) + 4.0*a_2*cos(theta_2)))/4, (cos(theta_1)*(a_3*cos(theta_2 + theta_3) + 2.0*a_2*cos(theta_2)))/2, (cos(theta_1)*(3.0*a_3*cos(theta_2 + theta_3) + 4.0*a_2*cos(theta_2)))/4, cos(theta_1)*(a_3*cos(theta_2 + theta_3) + a_2*cos(theta_2)), d_4*sin(theta_1) + a_2*cos(theta_1)*cos(theta_2) + a_3*cos(theta_1)*cos(theta_2)*cos(theta_3) - 1.0*a_3*cos(theta_1)*sin(theta_2)*sin(theta_3),      d_4*sin(theta_1) + d_5*(cos(theta_4)*(cos(theta_1)*cos(theta_2)*sin(theta_3) + cos(theta_1)*cos(theta_3)*sin(theta_2)) - 1.0*sin(theta_4)*(cos(theta_1)*sin(theta_2)*sin(theta_3) - 1.0*cos(theta_1)*cos(theta_2)*cos(theta_3))) + a_2*cos(theta_1)*cos(theta_2) + a_3*cos(theta_1)*cos(theta_2)*cos(theta_3) - 1.0*a_3*cos(theta_1)*sin(theta_2)*sin(theta_3),     0.11*cos(theta_5)*sin(theta_1) + d_6*(cos(theta_5)*sin(theta_1) - cos(theta_2 + theta_3 + theta_4)*cos(theta_1)*sin(theta_5)) + d_4*sin(theta_1) - 0.11*cos(theta_2 + theta_3 + theta_4)*cos(theta_1)*sin(theta_5) + a_2*cos(theta_1)*cos(theta_2) + d_5*sin(theta_2 + theta_3 + theta_4)*cos(theta_1) + a_3*cos(theta_1)*cos(theta_2)*cos(theta_3) - 1.0*a_3*cos(theta_1)*sin(theta_2)*sin(theta_3),
+        a_2*cos(theta_2)*sin(theta_1) - 0.11*cos(theta_1), (sin(theta_1)*(a_3*cos(theta_2 + theta_3) + 4.0*a_2*cos(theta_2)))/4, (sin(theta_1)*(a_3*cos(theta_2 + theta_3) + 2.0*a_2*cos(theta_2)))/2, (sin(theta_1)*(3.0*a_3*cos(theta_2 + theta_3) + 4.0*a_2*cos(theta_2)))/4, sin(theta_1)*(a_3*cos(theta_2 + theta_3) + a_2*cos(theta_2)), a_2*cos(theta_2)*sin(theta_1) - 1.0*d_4*cos(theta_1) + a_3*cos(theta_2)*cos(theta_3)*sin(theta_1) - 1.0*a_3*sin(theta_1)*sin(theta_2)*sin(theta_3),  d_5*(cos(theta_4)*(cos(theta_2)*sin(theta_1)*sin(theta_3) + cos(theta_3)*sin(theta_1)*sin(theta_2)) - 1.0*sin(theta_4)*(sin(theta_1)*sin(theta_2)*sin(theta_3) - 1.0*cos(theta_2)*cos(theta_3)*sin(theta_1))) - 1.0*d_4*cos(theta_1) + a_2*cos(theta_2)*sin(theta_1) + a_3*cos(theta_2)*cos(theta_3)*sin(theta_1) - 1.0*a_3*sin(theta_1)*sin(theta_2)*sin(theta_3), a_2*cos(theta_2)*sin(theta_1) - 1.0*d_6*(cos(theta_1)*cos(theta_5) + cos(theta_2 + theta_3 + theta_4)*sin(theta_1)*sin(theta_5)) - 1.0*d_4*cos(theta_1) - 0.11*cos(theta_2 + theta_3 + theta_4)*sin(theta_1)*sin(theta_5) - 0.11*cos(theta_1)*cos(theta_5) + d_5*sin(theta_2 + theta_3 + theta_4)*sin(theta_1) + a_3*cos(theta_2)*cos(theta_3)*sin(theta_1) - 1.0*a_3*sin(theta_1)*sin(theta_2)*sin(theta_3),
+        d_1 + a_2*sin(theta_2),                            d_1 + 0.25*a_3*sin(theta_2 + theta_3) + a_2*sin(theta_2),             d_1 + 0.5*a_3*sin(theta_2 + theta_3) + a_2*sin(theta_2),              d_1 + 0.75*a_3*sin(theta_2 + theta_3) + a_2*sin(theta_2),                 d_1 + a_3*sin(theta_2 + theta_3) + a_2*sin(theta_2),          d_1 + a_3*sin(theta_2 + theta_3) + a_2*sin(theta_2),                                                                                                 d_1 + a_3*sin(theta_2 + theta_3) + a_2*sin(theta_2) - 1.0*d_5*cos(theta_2 + theta_3 + theta_4),                                                                                                                                                                                                                                                                     d_1 - sin(theta_5)*(0.11*cos(theta_2 + theta_3)*sin(theta_4) + 0.11*sin(theta_2 + theta_3)*cos(theta_4)) + a_3*sin(theta_2 + theta_3) + 1.0*d_5*(1.0*sin(theta_2 + theta_3)*sin(theta_4) - 1.0*cos(theta_2 + theta_3)*cos(theta_4)) + a_2*sin(theta_2) - 1.0*d_6*sin(theta_5)*(1.0*cos(theta_2 + theta_3)*sin(theta_4) + sin(theta_2 + theta_3)*cos(theta_4));
   return mat;
 }
 
@@ -49,27 +45,26 @@ class GoalFollower
 { 
   // Access specifier 
   public: 
-
   // Data Members 
   ros::Publisher chatter_pub;
   ros::Publisher chatter_pub_test;
   ros::Publisher goal_state;
   
-  double robot_spheres[8] = {0.25, 0.13, 0.13, 0.13, 0.13, 0.15, 0.12, 0.18};
-  double human_sphere[56]= {10.0517,   0.5220,   1.0895,   0.1500,
-                            10.0658,   0.4526,   0.8624,   0.6010,
-                            10.0844,   0.7044,   0.9207,   0.5010,
-                            10.2083,   0.3075,   1.0208,   0.5010,
-                            10.0556,   0.6289,   0.7595,   0.5010,
-                            10.2024,   0.2732,   0.8478,   0.5010,
-                            10.0267,   0.5535,   0.5983,   0.5010,
-                            10.1965,   0.2389,   0.6749,   0.5010,
-                            -10.0208,   0.3964,   0.5857,   0.4510,
-                            10.0546,   0.2951,   0.6132,   0.4510,
-                            -10.1062,   0.2444,   0.5897,   0.4810,
-                            -10.0998,   0.3062,   0.5387,   0.4810,
-                            10.1908,   0.5290,   1.0016,   0.5510,
-                            10.2106,   0.4602,   0.6915,   0.6010};
+  double robot_spheres[8] = {0.29, 0.13, 0.13, 0.13, 0.13, 0.15, 0.12, 0.18};
+  double human_sphere[56]= {124.45,   85.11,   1749.08,   0.15,
+                            199.27,   83.75,   1461.56,   0.6010,
+                            98.34,   -126.49,  1558.72,   0.5010,
+                            126.02,   302.08,  1570.41,   0.5010,
+                            92.81,   -116.45,  1386.66,   0.5010,
+                            117.63,  293.61,   1397.60,   0.5010,
+                            87.28,   -106.41,  1214.60,   0.5010,
+                            109.24,   285.14,  1224.80,   0.5010,
+                            97.63,   -104.64,  1050.28,   0.4510,
+                            116.14,   286.97,  1060.32,   0.4510,
+                            112.92,   -101.01, 876.64,   0.4810,
+                            128.76,   286.75,  886.33,   0.4810,
+                            59.36,   89.71,   1600.76,   0.5510,
+                            50.81,   98.26,   1291.22,   0.6010};
 
   double goal[6] = {0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000};
   double comand_vel[6] = {0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000};
@@ -95,21 +90,11 @@ class GoalFollower
   }
 
   void SendVelocity(const std_msgs::Float64MultiArray joint_vel_values){
-    // printf("Send velocity\n");
-    // for (int i=0; i<18; i++){
-    //   // printf("i = %i, v=%f\n", i+1,joint_vel_values.data[i]);
-    // }
     chatter_pub.publish(joint_vel_values);
-    // printf("published\n");
     return;
   }
   void SendVelocity_test(const std_msgs::Float64MultiArray joint_vel_values){
-    // printf("Send velocity\n");
-    // for (int i=0; i<18; i++){
-    //   // printf("i = %i, v=%f\n", i+1,joint_vel_values.data[i]);
-    // }
     chatter_pub_test.publish(joint_vel_values);
-    // printf("published\n");
     return;
   }
 }; 
@@ -122,7 +107,6 @@ void vrep_time_msg(const std_msgs::Float64& msg){
 int main(int argc, char **argv)
 {
   myfile.open("data_high.csv", ios::out);
-  goalfile.open("2805_goal.csv", ios::out);
   myperffile.open("data_perf.csv", ios::out); 
   ros::init(argc, argv, "joint_controller_high");
 
@@ -141,8 +125,7 @@ int main(int argc, char **argv)
   PauseHigh.publish(msg);
 
   ROS_INFO("Goal default to: %.3f, %.3f, %.3f, %.3f, %.3f, %.3f", 
-	          my_follower.goal[0], my_follower.goal[1], my_follower.goal[2],
-            my_follower.goal[3], my_follower.goal[4], my_follower.goal[5]);
+	          my_follower.goal[0], my_follower.goal[1], my_follower.goal[2],my_follower.goal[3], my_follower.goal[4], my_follower.goal[5]);
 
   //--------------------------------
 
@@ -150,8 +133,10 @@ int main(int argc, char **argv)
   // define key trajectory points
   // double read_goal[2][6] = {-0.619, -0.625, -0.591, -0.563, -0.531, -0.581,
   //                           -0.2084, -0.2847, -0.225, -0.267, -0.3357, -0.1715};
-  double read_goal[2][6] = {-0.855, -0.855, -0.855, -0.855, -0.855, -0.855,
-                            -0.100, -0.100, -0.100, -0.100, -0.100, -0.100};
+  // double read_goal[2][6] = {-0.855, -0.855, -0.855, -0.855, -0.855, -0.855,
+  //                           -0.100, -0.100, -0.100, -0.100, -0.100, -0.100};
+  double read_goal[2][6] = {-3.0, -1.0, 1.5, -1.0, -1.0, -1.0,
+                            -2.0, -1.5, 1.0, -0.5, 1.0, 1.0};
 
   double static_goal[6] = {read_goal[1][0], read_goal[1][1], read_goal[1][2], read_goal[1][3], read_goal[1][4], read_goal[1][5]};
 
@@ -183,7 +168,7 @@ int main(int argc, char **argv)
 	  ros::Rate goto_loop(20);
 	  ros::Duration(0.50).sleep();
 	  while (vrep_time < start_motion_time + stop_human_time - (loop_duration*2)){
-      printf("vrep time=%f\n", vrep_time);
+      printf("vrep time=%f, start_motion_time = %f, stop_human_time = %f\n", vrep_time, start_motion_time, stop_human_time);
       joint_vel_values.data.clear();
       for (int i = 0; i < 12; i++) joint_vel_values.data.push_back(0.0);
       for (int i = 0; i < 6; i++) joint_vel_values.data.push_back(static_goal[i]);
@@ -251,7 +236,11 @@ int main(int argc, char **argv)
         if (row_index==1 && task_started==1) {
           task_started = 0;
           double perf_record = vrep_time - loop_start_time;
+          if (myperffile.is_open())
+	        {
           myperffile << "Performance " << big_loop_iteration <<" "<< perf_record <<" "<< task<< "\n";
+          }
+          else cout << "Unable to open file";
         }
         row_index = (row_index+1)%2;
       }
@@ -268,44 +257,36 @@ int main(int argc, char **argv)
                                        my_follower.joint_position[2], my_follower.joint_position[3], 
                                        my_follower.joint_position[4], my_follower.joint_position[5]);
       
-
-	    for (int j = 0; j<8; j++) {
+	    for (int j = 0; j<8; j++){
         Eigen::Vector3f w;
         w = mat2.col(j+1).transpose();
         for (int i = 0; i < 14; i++) {
 		      Eigen::Vector3f p(my_follower.human_sphere[i*4+0],my_follower.human_sphere[i*4+1],my_follower.human_sphere[i*4+2]);
-		      local_val = dist_v(w, p) - my_follower.robot_spheres[j] - my_follower.human_sphere[i*4+3];
-		      if (min_dist[j] > local_val) min_dist[j] = local_val;
+		      local_val = dist_v(w, p)-my_follower.robot_spheres[j]-my_follower.human_sphere[i*4+3];
+		      if (min_dist[j]>local_val) min_dist[j] = local_val;
 		    }
 		    if (smallest_dist > min_dist[j]) smallest_dist = min_dist[j];
 	    }
-      
       joint_vel_values.data.clear();
-
       for (int i = 0; i < 12; i++) {
-        // printf("solutions %i = %f\n", i+1, solutions[i]);
         joint_vel_values.data.push_back(solutions[i]);
       }
       for (int i = 0; i < 6; i++){
-        // printf("currentState_targetValue %i = %f\n", i+13, currentState_targetValue[i]);
         joint_vel_values.data.push_back(currentState_targetValue[i]);
       } 
       my_follower.SendVelocity_test(joint_vel_values);
-      // printf("flag3\n");
       std::stringstream save2file;
       if (myfile.is_open()){ 
         // mpc_time, KKT, is_infisible, smallest_dist
-	      myfile << vrep_time << " " << solutions[12] << " " << solutions[13] << " " << solutions[14] << " " << smallest_dist << " " << row_index << endl;
+	      myfile <<vrep_time<<" "<<solutions[0]<<" "<<solutions[1]<<" "<<solutions[2]<<" "<<solutions[3]<<" "<<solutions[4]<<" ";
+        myfile <<solutions[5]<<" "<<solutions[6]<<" "<<solutions[7]<<" "<<solutions[8]<<" "<<solutions[9]<<" "<<solutions[10]<<" ";
+        myfile <<solutions[11]<<" "<<solutions[12]<<" "<<solutions[13]<<" "<<solutions[14]<<" "<<smallest_dist<<" "<<row_index<<" ";
+	      myfile <<read_goal[row_index][0]<<" "<<read_goal[row_index][1]<<" "<<read_goal[row_index][2]<<" "<<read_goal[row_index][3]<<" ";
+        myfile <<read_goal[row_index][4]<<" "<<read_goal[row_index][5]<<" ";
+        myfile <<min_dist[0]<<" "<<min_dist[1]<<" "<<min_dist[2]<<" "<<min_dist[3]<<" "<<min_dist[4]<<" "<<min_dist[5]<<" ";
+        myfile <<min_dist[6]<<" "<<min_dist[7]<<" "<<endl;
 	    }
       else cout << "Unable to open file";
-
-      if (goalfile.is_open()){ 
-        // q_goal
-	      goalfile << vrep_time << " " <<read_goal[row_index][0] << " " <<read_goal[row_index][1]<< " " <<read_goal[row_index][2]<< " " <<read_goal[row_index][3]<< " " <<read_goal[row_index][4]<< " " <<read_goal[row_index][5]<< " "<<row_index << endl;
-	    }
-      else cout << "Unable to open file";
-
-      // printf("flag4\n");
       ros::spinOnce();
       loop_rate.sleep();
 	  }

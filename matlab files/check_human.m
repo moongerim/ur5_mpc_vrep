@@ -2,10 +2,10 @@ clear all
 close all
 clc
 cd /home/robot/
-load("data_2705_human.csv")
+low = load('data_low.csv');
 
-formula_human = data_2705_human(:,1:42);
-vrep_human =  data_2705_human(:,43:84);
+formula_human = low(:,273:314);
+vrep_human = low(:,315:356);
 
   %% Plot cposes
 len = 100;

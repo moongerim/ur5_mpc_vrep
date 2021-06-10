@@ -2,18 +2,16 @@ clear all
 close all
 clc
 cd /home/robot/
-load('data_2705_ctp.csv')
+low = load('data_low.csv');
 
 %% Plot cposes
-formula_cposes = data_2705_ctp(:,1:24);
-vrep_cposes =  data_2705_ctp(:,25:48);
-ans1 = data_2705_ctp(:,1);
-ans2 = data_2705_ctp(:,25);
+formula_cposes = low(:,1:24);
+vrep_cposes =  low(:,25:48);
 len = 100;
 fig_1 = figure('Name', '1-4')
-x_shift = 0;
-y_shift = 0;
-z_shift = 0;
+x_shift = -1;
+y_shift = -0.5;
+z_shift = 1.4;
 a=1;
 subplot(4,3,a);
 grid on;

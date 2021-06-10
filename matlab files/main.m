@@ -1,16 +1,31 @@
 clear all
 close all
 clc
-cd /home/robot/mpc_vrep
-load('data_2705_jp.csv')
-g = load('2805_goal.csv')
-%%     Plot positions vs target
-joint_positions = data_2705_jp(1:500,1:6);
-goal_positions =  g(:,2:7);
-q_dot_real = data_2705_jp(1:500,12:18);
-q_dot =  data_2705_jp(1:500,19:24);
+cd /home/robot/
+low = load('data_low.csv');
+high = load('data_high.csv');
 
-len = 100;
+%% Store data:
+ctp_f = low(:,1:24);
+ctp_v = low(:,25:48);
+dist_val = low(:,49:160);
+dist_vrep = low(:,161:272);
+human_sphere = low(:,273:314);
+human_vrep = low(:,315:356);
+joint_positions = low(:,357:362);
+goal_positions =  low(:,363:368);
+q_dot_real = low(:,369:374);
+q_dot =  low(:,375:380);
+min_dist = low(:,381:388);
+vrep_time = high(:,1);
+high_solutions = high(:,2:16);
+smallest_distance = high(:,17);
+row_index = high(:,18);
+goal = high(:,19:24);
+min_dist_high = high(:,25:32);
+len = 1000;
+dt = 500
+%% Plot joint positions Vs Goal Positions
 fig_1 = figure('Name', 'Joint positions')
 subplot(3,2,1);
 grid on;
@@ -68,15 +83,25 @@ set(gca,'XTickLabel',0:0.05*100:len*100*0.05);
 xlabel('time, seconds')
 
 % Construct a Legend with the data from the sub-plots
-hL = legend([l1,l2],{"q", "q goal"});
+hL = legend([l1,l2],["q", "q goal"]);
 % Programatically move the Legend
 newPosition = [0.6 0.1 0.1 0.1];
 newUnits = 'normalized';
 set(hL,'Position', newPosition,'Units', newUnits);
-filename = sprintf('%s_%d.png', 'jp', i);
-saveas(fig_1, filename);
+saveas(fig_1, 'jp.png');
 
-% fig_2 = figure('Name','velocities')
+%% Plot distances low
+fig_2 = figure('Name','distances')
+hold on;
+for i=1:8
+    plot(min_dist(5:end,i));
+end
+set(gca,'XTick',0:dt:dt*len); set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+
+legend('test point 1','test point 2','test point 3','test point 4','test point 5','test point 6','test point 7','test point 8')
+saveas(fig_2, 'dist_val.png');
+%% Plot joint velocities Vs MPC solutions
+% fig_4 = figure('Name','velocities')
 % 
 % subplot(3,2,1);
 % grid on;
@@ -132,9 +157,8 @@ saveas(fig_1, filename);
 % set(gca,'XTickLabel',0:0.05*100:len*100*0.05);
 % xlabel('time, seconds')
 % 
-% hL = legend([l1,l2],{"real velocity", "MPC solutions"});
+% hL = legend([l1,l2],["q_dot", "MPC solutions"]);
 % newPosition = [0.6 0.1 0.1 0.1];
 % newUnits = 'normalized';
 % set(hL,'Position', newPosition,'Units', newUnits);
-% filename = sprintf('%s_%d.png', 'vel_i', i);
-% saveas(fig_2, filename);
+% saveas(fig_4, 'jv.png');
