@@ -1,7 +1,7 @@
 clear all
 close all
 clc
-cd /home/robot/
+cd /home/robot/workspaces/ur5_mpc_vrep
 low = load('data_low.csv');
 high = load('data_high.csv');
 

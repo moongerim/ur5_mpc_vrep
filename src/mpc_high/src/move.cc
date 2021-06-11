@@ -238,7 +238,7 @@ int main(int argc, char **argv)
           double perf_record = vrep_time - loop_start_time;
           if (myperffile.is_open())
 	        {
-          myperffile << "Performance " << big_loop_iteration <<" "<< perf_record <<" "<< task<< "\n";
+          myperffile <<"Performance"<<big_loop_iteration<<" "<<perf_record<<" "<<task<<" "<<endl;
           }
           else cout << "Unable to open file";
         }
