@@ -35,8 +35,7 @@ double velocity_sphere[56]= {0.0,   0.0,   0.0,   0.0,
 ros::Time start;
 float point_array_temp[56];
 float point_array[56];
-float sphere_radi[]={  0.5510,   0.6010,   0.5010,   0.5010,   0.5010,   0.5010,  0.5010,
-                              0.5010,    0.4510,   0.4510,   0.4810,   0.4810,   0.5510, 0.6010 };
+float sphere_radi[14]={0.5510,0.6010,0.5010,0.5010,0.5010,0.5010,0.5010,0.5010,0.4510,0.4510,0.4810,0.4810,0.5510,0.6010};
 
 void chatterCallback(const std_msgs::Float64MultiArray msg)
 {
@@ -64,9 +63,9 @@ int main(int argc, char **argv)
   while (ros::ok())
   {
     for (int i = 0; i<14; i++) {
-	  point_array[i*4] = -(point_array_temp[i*4]+1.000); // x offset
-	  point_array[i*4+1] = -(point_array_temp[i*4+1]+0.500); // y offset
-	  point_array[i*4+2] = (point_array_temp[i*4+2]-1.200); // z offset
+	  point_array[i*4] = point_array_temp[i*4]; // x offset
+	  point_array[i*4+1] = point_array_temp[i*4+1]; // y offset
+	  point_array[i*4+2] = point_array_temp[i*4+2]; // z offset
     point_array[i*4+3] = point_array_temp[i*4+3];
     }
     // ROS_INFO("Np11 %.3f %.3f %.3f %.3f", point_array[44], point_array[45], point_array[46], point_array[47]);

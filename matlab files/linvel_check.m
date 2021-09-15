@@ -1,16 +1,25 @@
 clear all
 close all
 clc
-cd /home/robot/
-load('data_low_2705_cposes.csv')
-q = data_low_2705_cposes(:,1:6);
-formula_linvel = data_low_2705_cposes(:,7:30);
-vrep_linvel =  data_low_2705_cposes(:,31:54);
+% cd /home/robot/workspaces/ur5_mpc_vrep
+% low = load('data_low.csv');
+% q = data_low_2705_cposes(:,1:6);
+% formula_linvel = data_low_2705_cposes(:,7:30);
+% vrep_linvel =  data_low_2705_cposes(:,31:54);
 %%
 % UR kinematics parameters
 syms theta_1 theta_2 theta_3 theta_4 theta_5 theta_6 real; % 
-a_2 = -0.42500; a_3 = -0.39225; 
-d_1 = 0.089159; d_4 = 0.10915; d_5 = 0.09465; d_6 = 0.0823;
+syms a_2 a_3 d_1 d_4 d_5 d_6 real;  % DH parameters
+syms u_1 u_2 u_3 u_4 u_5 u_6 real;
+
+% theta_1=0;
+% theta_2=-1.57;
+% theta_3=0;
+% theta_4=-1.57;
+% theta_5=0;
+% theta_6=0;
+% a_2 = -0.42500; a_3 = -0.39225; 
+% d_1 = 0.089159; d_4 = 0.10915; d_5 = 0.09465; d_6 = 0.0823;
 
 % UR transformation matrices 
 H1 = [cos(theta_1), 0,  sin(theta_1), 0;
@@ -45,13 +54,13 @@ H6 = [cos(theta_6), -sin(theta_6), 0,   0;
 
 H7 = [1, 0, 0, 0;
       0, 1, 0, 0;
-      0, 0, 1, 0.11;
+      0, 0, 1, 0;
       0, 0, 0, 1];
 
 % H22 - before the joint 3
 H22 = [cos(theta_2), -sin(theta_2), 0, a_2*cos(theta_2);
       sin(theta_2),  cos(theta_2), 0, a_2*sin(theta_2);
-                0,            0, 1,                0.11;
+                0,            0, 1,                0;
                 0,            0, 0,                1];
 T01 = H1;
 T02 = H1*H2;
@@ -142,9 +151,73 @@ Jv6 = [diff(txt6_vpa, theta_1), diff(txt6_vpa, theta_2), diff(txt6_vpa, theta_3)
 Jv7 = [diff(txt7_vpa, theta_1), diff(txt7_vpa, theta_2), diff(txt7_vpa, theta_3), diff(txt7_vpa, theta_4), diff(txt7_vpa, theta_5), diff(txt7_vpa, theta_6)];
 Jv8 = [diff(txt8_vpa, theta_1), diff(txt8_vpa, theta_2), diff(txt8_vpa, theta_3), diff(txt8_vpa, theta_4), diff(txt8_vpa, theta_5), diff(txt8_vpa, theta_6)];
 
-vpa(simplify([Jv1; Jv2; Jv3; Jv4; Jv5; Jv6; Jv7; Jv8]),4)
+LinVel = vpa(simplify([Jv1; Jv2; Jv3; Jv4; Jv5; Jv6; Jv7; Jv8]),4);
 
+vel = [u_1; u_2; u_3; u_4; u_5; u_6];
+IntState = LinVel*vel;
 
+%% for Move.c file: Linear velocities of 8 test points on UR5 robot
+fileID = fopen('linvel_for_movecc_files.txt','w');
+fprintf(fileID,'// Linear velocities of 8 test points on UR5 robot \n');
+fprintf(fileID,strcat(char(LinVel(1,:)), ',\n'));
+fprintf(fileID,strcat(char(LinVel(2,:)), ',\n'));
+fprintf(fileID,strcat(char(LinVel(3,:)), ',\n'));
+fprintf(fileID,strcat(char(LinVel(4,:)), ',\n'));
+fprintf(fileID,strcat(char(LinVel(5,:)), ',\n'));
+fprintf(fileID,strcat(char(LinVel(6,:)), ',\n'));
+fprintf(fileID,strcat(char(LinVel(7,:)), ',\n'));
+fprintf(fileID,strcat(char(LinVel(8,:)), ',\n'));
+fprintf(fileID,strcat(char(LinVel(9,:)), ',\n'));
+fprintf(fileID,strcat(char(LinVel(10,:)), ',\n'));
+fprintf(fileID,strcat(char(LinVel(11,:)), ',\n'));
+fprintf(fileID,strcat(char(LinVel(12,:)), ',\n'));
+fprintf(fileID,strcat(char(LinVel(13,:)), ',\n'));
+fprintf(fileID,strcat(char(LinVel(14,:)), ',\n'));
+fprintf(fileID,strcat(char(LinVel(15,:)), ',\n'));
+fprintf(fileID,strcat(char(LinVel(16,:)), ',\n'));
+fprintf(fileID,strcat(char(LinVel(17,:)), ',\n'));
+fprintf(fileID,strcat(char(LinVel(18,:)), ',\n'));
+fprintf(fileID,strcat(char(LinVel(19,:)), ',\n'));
+fprintf(fileID,strcat(char(LinVel(20,:)), ',\n'));
+fprintf(fileID,strcat(char(LinVel(21,:)), ',\n'));
+fprintf(fileID,strcat(char(LinVel(22,:)), ',\n'));
+fprintf(fileID,strcat(char(LinVel(23,:)), ',\n'));
+fprintf(fileID,strcat(char(LinVel(24,:)), ';\n'));
+fclose(fileID);
 
+%% for ACADO file: Linear velocities of 8 test points on UR5 robot
+fileID = fopen('linvel_for_movecc_files.txt','w');
+fprintf(fileID,'// Linear velocities of 8 test points on UR5 robot \n');
+fprintf(fileID,strcat('IntermediateState v3_x=',char(IntState(1)), ';\n'));
+fprintf(fileID,strcat('IntermediateState v3_y=',char(IntState(2)), ';\n'));
+fprintf(fileID,strcat('IntermediateState v3_z=',char(IntState(3)), ';\n'));
 
+fprintf(fileID,strcat('IntermediateState v21_x=',char(IntState(4)), ';\n'));
+fprintf(fileID,strcat('IntermediateState v21_y=',char(IntState(5)), ';\n'));
+fprintf(fileID,strcat('IntermediateState v21_z=',char(IntState(6)), ';\n'));
 
+fprintf(fileID,strcat('IntermediateState v22_x=',char(IntState(7)), ';\n'));
+fprintf(fileID,strcat('IntermediateState v22_y=',char(IntState(8)), ';\n'));
+fprintf(fileID,strcat('IntermediateState v22_z=',char(IntState(9)), ';\n'));
+
+fprintf(fileID,strcat('IntermediateState v23_x=',char(IntState(10)), ';\n'));
+fprintf(fileID,strcat('IntermediateState v23_y=',char(IntState(11)), ';\n'));
+fprintf(fileID,strcat('IntermediateState v23_z=',char(IntState(12)), ';\n'));
+
+fprintf(fileID,strcat('IntermediateState v41_x=',char(IntState(13)), ';\n'));
+fprintf(fileID,strcat('IntermediateState v41_y=',char(IntState(14)), ';\n'));
+fprintf(fileID,strcat('IntermediateState v41_z=',char(IntState(15)), ';\n'));
+
+fprintf(fileID,strcat('IntermediateState v42_x=',char(IntState(16)), ';\n'));
+fprintf(fileID,strcat('IntermediateState v42_y=',char(IntState(17)), ';\n'));
+fprintf(fileID,strcat('IntermediateState v42_z=',char(IntState(18)), ';\n'));
+
+fprintf(fileID,strcat('IntermediateState v5_x=',char(IntState(19)), ';\n'));
+fprintf(fileID,strcat('IntermediateState v5_y=',char(IntState(20)), ';\n'));
+fprintf(fileID,strcat('IntermediateState v5_z=',char(IntState(21)), ';\n'));
+
+fprintf(fileID,strcat('IntermediateState v62_x=',char(IntState(22)), ';\n'));
+fprintf(fileID,strcat('IntermediateState v62_y=',char(IntState(23)), ';\n'));
+fprintf(fileID,strcat('IntermediateState v62_z=',char(IntState(24)), ';\n'));
+
+fclose(fileID);

@@ -1,23 +1,20 @@
-clear all
-close all
-clc
-cd /home/robot/
+% clear all
+% close all
+% clc
+cd /home/robot/workspaces/ur5_mpc_vrep
 low = load('data_low.csv');
 
-formula_human = low(:,273:314);
-vrep_human = low(:,315:356);
+formula_human = low(6:end,273:314);
+vrep_human = low(6:end,315:356);
 
-  %% Plot cposes
+%% Plot cposes
 len = 100;
 fig_1 = figure('Name', '1-4')
 a=1;
-x_shift = -1;
-y_shift = -0.5;
-z_shift = 1.2;
 subplot(4,3,a);
 grid on;
 hold on;
-plot(x_shift-formula_human(:,a));
+plot(formula_human(:,a));
 plot(vrep_human(:,a));
 title(int2str(a));
 set(gca,'XTick',0:100:100*len);
@@ -27,7 +24,7 @@ a=a+1;
 subplot(4,3,a);
 grid on;
 hold on;
-plot(y_shift-formula_human(:,a));
+plot(formula_human(:,a));
 plot(vrep_human(:,a));
 title(int2str(a));
 set(gca,'XTick',0:100:100*len);
@@ -36,7 +33,7 @@ a=a+1;
 subplot(4,3,a);
 grid on;
 hold on;
-plot(z_shift+formula_human(:,a));
+plot(formula_human(:,a));
 plot(vrep_human(:,a));
 title(int2str(a));
 set(gca,'XTick',0:100:100*len);
@@ -47,7 +44,7 @@ a=a+1;
 subplot(4,3,a);
 grid on;
 hold on;
-plot(x_shift-formula_human(:,a));
+plot(formula_human(:,a));
 plot(vrep_human(:,a));
 title(int2str(a));
 set(gca,'XTick',0:100:100*len);
@@ -57,7 +54,7 @@ a=a+1;
 subplot(4,3,a);
 grid on;
 hold on;
-plot(y_shift-formula_human(:,a));
+plot(formula_human(:,a));
 plot(vrep_human(:,a));
 title(int2str(a));
 set(gca,'XTick',0:100:100*len);
@@ -67,7 +64,7 @@ a=a+1;
 subplot(4,3,a);
 grid on;
 hold on;
-plot(z_shift+formula_human(:,a));
+plot(formula_human(:,a));
 plot(vrep_human(:,a));
 title(int2str(a));
 set(gca,'XTick',0:100:100*len);
@@ -77,7 +74,7 @@ a=a+1;
 subplot(4,3,a);
 grid on;
 hold on;
-plot(x_shift-formula_human(:,a));
+plot(formula_human(:,a));
 plot(vrep_human(:,a));
 title(int2str(a));
 set(gca,'XTick',0:100:100*len);
@@ -87,7 +84,7 @@ a=a+1;
 subplot(4,3,a);
 grid on;
 hold on;
-plot(y_shift-formula_human(:,a));
+plot(formula_human(:,a));
 plot(vrep_human(:,a));
 title(int2str(a));
 set(gca,'XTick',0:100:100*len);
@@ -97,7 +94,7 @@ a=a+1;
 subplot(4,3,a);
 grid on;
 hold on;
-plot(z_shift+formula_human(:,a));
+plot(formula_human(:,a));
 plot(vrep_human(:,a));
 title(int2str(a));
 set(gca,'XTick',0:100:100*len);
@@ -458,8 +455,6 @@ l2=plot(vrep_human(:,a));
 title(int2str(a));
 set(gca,'XTick',0:100:100*len);
 set(gca,'XTickLabel',0:0.05*100:len*100*0.05);
-
-
 
 hL = legend([l1,l2],["formula", "vrep"]);
 newPosition = [0.6 0.1 0.1 0.1];

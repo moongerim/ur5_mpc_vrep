@@ -1,0 +1,49 @@
+// Code for ellipse 
+IntermediateState joint3_x=-0.425*cos(theta_1)*cos(theta_2);
+IntermediateState joint3_y=-0.425*cos(theta_2)*sin(theta_1);
+IntermediateState joint3_z=0.089159000000000002139621813057602 - 0.425*sin(theta_2);
+IntermediateState first_condition =5.3465*(joint3_x - obstacle_x)*(joint3_x - obstacle_x) +3.165*(joint3_y - obstacle_y)*(joint3_y - obstacle_y) +3.165*(joint3_z - obstacle_z)*(joint3_z - obstacle_z) - 1;
+ocp.subjectTo( first_condition >=  0.0);
+
+IntermediateState link21_x=-(cos(theta_1)*(6800.0*cos(theta_2) + 1569.0*cos(theta_2)*cos(theta_3) - 6276.0*sin(theta_2)*sin(theta_3)))/16000;
+IntermediateState link21_y=-(sin(theta_1)*(6800.0*cos(theta_2) + 1569.0*cos(theta_2)*cos(theta_3) - 6276.0*sin(theta_2)*sin(theta_3)))/16000;
+IntermediateState link21_z=0.089159000000000002139621813057602 - 0.425*sin(theta_2) - 0.0980625*sin(theta_2 + theta_3);
+IntermediateState second_condition =5.3465*(link21_x - obstacle_x)*(link21_x - obstacle_x) +3.165*(link21_y - obstacle_y)*(link21_y - obstacle_y) +3.165*(link21_z - obstacle_z)*(link21_z - obstacle_z) - 1;
+ocp.subjectTo( second_condition >=  0.0);
+
+IntermediateState link22_x=-(cos(theta_1)*(3400.0*cos(theta_2) + 1569.0*cos(theta_2)*cos(theta_3) - 3138.0*sin(theta_2)*sin(theta_3)))/8000;
+IntermediateState link22_y=-(sin(theta_1)*(3400.0*cos(theta_2) + 1569.0*cos(theta_2)*cos(theta_3) - 3138.0*sin(theta_2)*sin(theta_3)))/8000;
+IntermediateState link22_z=0.089159000000000002139621813057602 - 0.425*sin(theta_2) - 0.196125*sin(theta_2 + theta_3);
+IntermediateState third_condition =5.3465*(link22_x - obstacle_x)*(link22_x - obstacle_x) +3.165*(link22_y - obstacle_y)*(link22_y - obstacle_y) +3.165*(link22_z - obstacle_z)*(link22_z - obstacle_z) - 1;
+ocp.subjectTo( third_condition >=  0.0);
+
+IntermediateState link23_x=-(cos(theta_1)*(6800.0*cos(theta_2) + 4707.0*cos(theta_2)*cos(theta_3) - 6276.0*sin(theta_2)*sin(theta_3)))/16000;
+IntermediateState link23_y=-(sin(theta_1)*(6800.0*cos(theta_2) + 4707.0*cos(theta_2)*cos(theta_3) - 6276.0*sin(theta_2)*sin(theta_3)))/16000;
+IntermediateState link23_z=0.089159000000000002139621813057602 - 0.425*sin(theta_2) - 0.2941875*sin(theta_2 + theta_3);
+IntermediateState forth_condition =5.3465*(link23_x - obstacle_x)*(link23_x - obstacle_x) +3.165*(link23_y - obstacle_y)*(link23_y - obstacle_y) +3.165*(link23_z - obstacle_z)*(link23_z - obstacle_z) - 1;
+ocp.subjectTo( forth_condition >=  0.0);
+
+IntermediateState joint41_x=-(cos(theta_1)*(1569.0*cos(theta_2 + theta_3) + 1700.0*cos(theta_2)))/4000;
+IntermediateState joint41_y=-(sin(theta_1)*(1569.0*cos(theta_2 + theta_3) + 1700.0*cos(theta_2)))/4000;
+IntermediateState joint41_z=0.089159000000000002139621813057602 - 0.425*sin(theta_2) - 0.39225*sin(theta_2 + theta_3);
+IntermediateState fifth_condition =5.3465*(joint41_x - obstacle_x)*(joint41_x - obstacle_x) +3.165*(joint41_y - obstacle_y)*(joint41_y - obstacle_y) +3.165*(joint41_z - obstacle_z)*(joint41_z - obstacle_z) - 1;
+ocp.subjectTo( fifth_condition >=  0.0);
+
+IntermediateState joint42_x=0.10915*sin(theta_1) - 0.425*cos(theta_1)*cos(theta_2) + 0.39225*cos(theta_1)*sin(theta_2)*sin(theta_3) - 0.39225*cos(theta_1)*cos(theta_2)*cos(theta_3);
+IntermediateState joint42_y=0.39225*sin(theta_1)*sin(theta_2)*sin(theta_3) - 0.425*cos(theta_2)*sin(theta_1) - 0.10915*cos(theta_1) - 0.39225*cos(theta_2)*cos(theta_3)*sin(theta_1);
+IntermediateState joint42_z=0.089159000000000002139621813057602 - 0.425*sin(theta_2) - 0.39225*sin(theta_2 + theta_3);
+IntermediateState sixth_condition =5.3465*(joint42_x - obstacle_x)*(joint42_x - obstacle_x) +3.165*(joint42_y - obstacle_y)*(joint42_y - obstacle_y) +3.165*(joint42_z - obstacle_z)*(joint42_z - obstacle_z) - 1;
+ocp.subjectTo( sixth_condition >=  0.0);
+
+IntermediateState joint52_x=0.10915*sin(theta_1) - 0.425*cos(theta_1)*cos(theta_2) + 0.09465*cos(theta_4)*(cos(theta_1)*cos(theta_2)*sin(theta_3) + cos(theta_1)*cos(theta_3)*sin(theta_2)) - 0.09465*sin(theta_4)*(cos(theta_1)*sin(theta_2)*sin(theta_3) - 1.0*cos(theta_1)*cos(theta_2)*cos(theta_3)) + 0.39225*cos(theta_1)*sin(theta_2)*sin(theta_3) - 0.39225*cos(theta_1)*cos(theta_2)*cos(theta_3);
+IntermediateState joint52_y=0.09465*cos(theta_4)*(cos(theta_2)*sin(theta_1)*sin(theta_3) + cos(theta_3)*sin(theta_1)*sin(theta_2)) - 0.425*cos(theta_2)*sin(theta_1) - 0.10915*cos(theta_1) - 0.09465*sin(theta_4)*(sin(theta_1)*sin(theta_2)*sin(theta_3) - 1.0*cos(theta_2)*cos(theta_3)*sin(theta_1)) + 0.39225*sin(theta_1)*sin(theta_2)*sin(theta_3) - 0.39225*cos(theta_2)*cos(theta_3)*sin(theta_1);
+IntermediateState joint52_z=0.089159000000000002139621813057602 - 0.39225*sin(theta_2 + theta_3) - 0.425*sin(theta_2) - 0.09465*cos(theta_2 + theta_3 + theta_4);
+IntermediateState seventh_condition =5.3465*(joint52_x - obstacle_x)*(joint52_x - obstacle_x) +3.165*(joint52_y - obstacle_y)*(joint52_y - obstacle_y) +3.165*(joint52_z - obstacle_z)*(joint52_z - obstacle_z) - 1;
+ocp.subjectTo( seventh_condition >=  0.0);
+
+IntermediateState joint62_x=0.10915*sin(theta_1) - 0.425*cos(theta_1)*cos(theta_2) + 0.0823*cos(theta_5)*sin(theta_1) + 0.39225*cos(theta_1)*sin(theta_2)*sin(theta_3) - 0.0823*cos(theta_2 + theta_3 + theta_4)*cos(theta_1)*sin(theta_5) + 0.09465*cos(theta_2 + theta_3)*cos(theta_1)*sin(theta_4) + 0.09465*sin(theta_2 + theta_3)*cos(theta_1)*cos(theta_4) - 0.39225*cos(theta_1)*cos(theta_2)*cos(theta_3);
+IntermediateState joint62_y=0.39225*sin(theta_1)*sin(theta_2)*sin(theta_3) - 0.0823*cos(theta_1)*cos(theta_5) - 0.425*cos(theta_2)*sin(theta_1) - 0.10915*cos(theta_1) - 0.0823*cos(theta_2 + theta_3 + theta_4)*sin(theta_1)*sin(theta_5) + 0.09465*cos(theta_2 + theta_3)*sin(theta_1)*sin(theta_4) + 0.09465*sin(theta_2 + theta_3)*cos(theta_4)*sin(theta_1) - 0.39225*cos(theta_2)*cos(theta_3)*sin(theta_1);
+IntermediateState joint62_z=0.09465*sin(theta_2 + theta_3)*sin(theta_4) - 0.425*sin(theta_2) - 0.39225*sin(theta_2 + theta_3) - sin(theta_5)*(0.0823*cos(theta_2 + theta_3)*sin(theta_4) + 0.0823*sin(theta_2 + theta_3)*cos(theta_4)) - 0.09465*cos(theta_2 + theta_3)*cos(theta_4) + 0.089159000000000002139621813057602;
+IntermediateState eighth_condition =5.3465*(joint62_x - obstacle_x)*(joint62_x - obstacle_x) +3.165*(joint62_y - obstacle_y)*(joint62_y - obstacle_y) +3.165*(joint62_z - obstacle_z)*(joint62_z - obstacle_z) - 1;
+ocp.subjectTo( eighth_condition >=  0.0);
+

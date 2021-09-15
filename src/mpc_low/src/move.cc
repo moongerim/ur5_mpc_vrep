@@ -23,55 +23,53 @@ int gripper = 0;
 float dist_v(Eigen::Vector3f v, Eigen::Vector3f w){
 	return (v-w).norm();
 }
+
 double d_1 =  0.08920;           // Offset of link 1
 double d_4 =  0.10900;           // Offset of link 4
 double d_5 =  0.09300;           // Offset of link 5
 double d_6 =  0.08200;           // Offset of link 6
 double a_2 = -0.42500;           // Length of link 2
-double a_3 = -0.39243;			 // Length of link 3
+double a_3 = -0.39243;			     // Length of link 3
 
 // cartesian positions of the 8 test points:
 Eigen::MatrixXf get_cpose(float theta_1, float theta_2, float theta_3, float theta_4, float theta_5, float theta_6){
   Eigen::MatrixXf mat(3,9);
-  mat <<0, 0.11*sin(theta_1) + a_2*cos(theta_1)*cos(theta_2), (cos(theta_1)*(a_3*cos(theta_2 + theta_3) + 4.0*a_2*cos(theta_2)))/4, (cos(theta_1)*(a_3*cos(theta_2 + theta_3) + 2.0*a_2*cos(theta_2)))/2, (cos(theta_1)*(3.0*a_3*cos(theta_2 + theta_3) + 4.0*a_2*cos(theta_2)))/4, cos(theta_1)*(a_3*cos(theta_2 + theta_3) + a_2*cos(theta_2)), d_4*sin(theta_1) + a_2*cos(theta_1)*cos(theta_2) + a_3*cos(theta_1)*cos(theta_2)*cos(theta_3) - 1.0*a_3*cos(theta_1)*sin(theta_2)*sin(theta_3),      d_4*sin(theta_1) + d_5*(cos(theta_4)*(cos(theta_1)*cos(theta_2)*sin(theta_3) + cos(theta_1)*cos(theta_3)*sin(theta_2)) - 1.0*sin(theta_4)*(cos(theta_1)*sin(theta_2)*sin(theta_3) - 1.0*cos(theta_1)*cos(theta_2)*cos(theta_3))) + a_2*cos(theta_1)*cos(theta_2) + a_3*cos(theta_1)*cos(theta_2)*cos(theta_3) - 1.0*a_3*cos(theta_1)*sin(theta_2)*sin(theta_3),     0.11*cos(theta_5)*sin(theta_1) + d_6*(cos(theta_5)*sin(theta_1) - cos(theta_2 + theta_3 + theta_4)*cos(theta_1)*sin(theta_5)) + d_4*sin(theta_1) - 0.11*cos(theta_2 + theta_3 + theta_4)*cos(theta_1)*sin(theta_5) + a_2*cos(theta_1)*cos(theta_2) + d_5*sin(theta_2 + theta_3 + theta_4)*cos(theta_1) + a_3*cos(theta_1)*cos(theta_2)*cos(theta_3) - 1.0*a_3*cos(theta_1)*sin(theta_2)*sin(theta_3),
-        0, a_2*cos(theta_2)*sin(theta_1) - 0.11*cos(theta_1), (sin(theta_1)*(a_3*cos(theta_2 + theta_3) + 4.0*a_2*cos(theta_2)))/4, (sin(theta_1)*(a_3*cos(theta_2 + theta_3) + 2.0*a_2*cos(theta_2)))/2, (sin(theta_1)*(3.0*a_3*cos(theta_2 + theta_3) + 4.0*a_2*cos(theta_2)))/4, sin(theta_1)*(a_3*cos(theta_2 + theta_3) + a_2*cos(theta_2)), a_2*cos(theta_2)*sin(theta_1) - 1.0*d_4*cos(theta_1) + a_3*cos(theta_2)*cos(theta_3)*sin(theta_1) - 1.0*a_3*sin(theta_1)*sin(theta_2)*sin(theta_3),  d_5*(cos(theta_4)*(cos(theta_2)*sin(theta_1)*sin(theta_3) + cos(theta_3)*sin(theta_1)*sin(theta_2)) - 1.0*sin(theta_4)*(sin(theta_1)*sin(theta_2)*sin(theta_3) - 1.0*cos(theta_2)*cos(theta_3)*sin(theta_1))) - 1.0*d_4*cos(theta_1) + a_2*cos(theta_2)*sin(theta_1) + a_3*cos(theta_2)*cos(theta_3)*sin(theta_1) - 1.0*a_3*sin(theta_1)*sin(theta_2)*sin(theta_3), a_2*cos(theta_2)*sin(theta_1) - 1.0*d_6*(cos(theta_1)*cos(theta_5) + cos(theta_2 + theta_3 + theta_4)*sin(theta_1)*sin(theta_5)) - 1.0*d_4*cos(theta_1) - 0.11*cos(theta_2 + theta_3 + theta_4)*sin(theta_1)*sin(theta_5) - 0.11*cos(theta_1)*cos(theta_5) + d_5*sin(theta_2 + theta_3 + theta_4)*sin(theta_1) + a_3*cos(theta_2)*cos(theta_3)*sin(theta_1) - 1.0*a_3*sin(theta_1)*sin(theta_2)*sin(theta_3),
-        0, d_1 + a_2*sin(theta_2),                            d_1 + 0.25*a_3*sin(theta_2 + theta_3) + a_2*sin(theta_2),             d_1 + 0.5*a_3*sin(theta_2 + theta_3) + a_2*sin(theta_2),              d_1 + 0.75*a_3*sin(theta_2 + theta_3) + a_2*sin(theta_2),                 d_1 + a_3*sin(theta_2 + theta_3) + a_2*sin(theta_2),          d_1 + a_3*sin(theta_2 + theta_3) + a_2*sin(theta_2),                                                                                                 d_1 + a_3*sin(theta_2 + theta_3) + a_2*sin(theta_2) - 1.0*d_5*cos(theta_2 + theta_3 + theta_4),                                                                                                                                                                                                                                                                     d_1 - sin(theta_5)*(0.11*cos(theta_2 + theta_3)*sin(theta_4) + 0.11*sin(theta_2 + theta_3)*cos(theta_4)) + a_3*sin(theta_2 + theta_3) + 1.0*d_5*(1.0*sin(theta_2 + theta_3)*sin(theta_4) - 1.0*cos(theta_2 + theta_3)*cos(theta_4)) + a_2*sin(theta_2) - 1.0*d_6*sin(theta_5)*(1.0*cos(theta_2 + theta_3)*sin(theta_4) + sin(theta_2 + theta_3)*cos(theta_4));
+  mat <<0, -0.425*cos(theta_1)*cos(theta_2), -0.425*cos(theta_1)*cos(theta_2)+(-(cos(theta_1)*(1569.0*cos(theta_2 + theta_3) + 1700.0*cos(theta_2)))/4000-(-0.425*cos(theta_1)*cos(theta_2)))/4,  -0.425*cos(theta_1)*cos(theta_2)+2*(-(cos(theta_1)*(1569.0*cos(theta_2 + theta_3) + 1700.0*cos(theta_2)))/4000-(-0.425*cos(theta_1)*cos(theta_2)))/4,  -0.425*cos(theta_1)*cos(theta_2)+3*(-(cos(theta_1)*(1569.0*cos(theta_2 + theta_3) + 1700.0*cos(theta_2)))/4000-(-0.425*cos(theta_1)*cos(theta_2)))/4,             -(cos(theta_1)*(1569.0*cos(theta_2 + theta_3) + 1700.0*cos(theta_2)))/4000, 0.10915*sin(theta_1) - 0.425*cos(theta_1)*cos(theta_2) + 0.39225*cos(theta_1)*sin(theta_2)*sin(theta_3) - 0.39225*cos(theta_1)*cos(theta_2)*cos(theta_3), 0.10915*sin(theta_1) - 0.425*cos(theta_1)*cos(theta_2) + 0.09465*cos(theta_4)*(cos(theta_1)*cos(theta_2)*sin(theta_3) + cos(theta_1)*cos(theta_3)*sin(theta_2)) - 0.09465*sin(theta_4)*(cos(theta_1)*sin(theta_2)*sin(theta_3) - 1.0*cos(theta_1)*cos(theta_2)*cos(theta_3)) + 0.39225*cos(theta_1)*sin(theta_2)*sin(theta_3) - 0.39225*cos(theta_1)*cos(theta_2)*cos(theta_3), 0.10915*sin(theta_1) - 0.425*cos(theta_1)*cos(theta_2) + 0.0823*cos(theta_5)*sin(theta_1) + 0.39225*cos(theta_1)*sin(theta_2)*sin(theta_3) - 0.0823*cos(theta_2 + theta_3 + theta_4)*cos(theta_1)*sin(theta_5) + 0.09465*cos(theta_2 + theta_3)*cos(theta_1)*sin(theta_4) + 0.09465*sin(theta_2 + theta_3)*cos(theta_1)*cos(theta_4) - 0.39225*cos(theta_1)*cos(theta_2)*cos(theta_3),
+        0, -0.425*cos(theta_2)*sin(theta_1),  -0.425*cos(theta_2)*sin(theta_1)+(-(sin(theta_1)*(1569.0*cos(theta_2 + theta_3) + 1700.0*cos(theta_2)))/4000-(-0.425*cos(theta_2)*sin(theta_1)))/4, -0.425*cos(theta_2)*sin(theta_1)+2*(-(sin(theta_1)*(1569.0*cos(theta_2 + theta_3) + 1700.0*cos(theta_2)))/4000-(-0.425*cos(theta_2)*sin(theta_1)))/4, -0.425*cos(theta_2)*sin(theta_1)+3*(-(sin(theta_1)*(1569.0*cos(theta_2 + theta_3) + 1700.0*cos(theta_2)))/4000-(-0.425*cos(theta_2)*sin(theta_1)))/4,            -(sin(theta_1)*(1569.0*cos(theta_2 + theta_3) + 1700.0*cos(theta_2)))/4000, 0.39225*sin(theta_1)*sin(theta_2)*sin(theta_3) - 0.425*cos(theta_2)*sin(theta_1) - 0.10915*cos(theta_1) - 0.39225*cos(theta_2)*cos(theta_3)*sin(theta_1), 0.09465*cos(theta_4)*(cos(theta_2)*sin(theta_1)*sin(theta_3) + cos(theta_3)*sin(theta_1)*sin(theta_2)) - 0.425*cos(theta_2)*sin(theta_1) - 0.10915*cos(theta_1) - 0.09465*sin(theta_4)*(sin(theta_1)*sin(theta_2)*sin(theta_3) - 1.0*cos(theta_2)*cos(theta_3)*sin(theta_1)) + 0.39225*sin(theta_1)*sin(theta_2)*sin(theta_3) - 0.39225*cos(theta_2)*cos(theta_3)*sin(theta_1), 0.39225*sin(theta_1)*sin(theta_2)*sin(theta_3) - 0.0823*cos(theta_1)*cos(theta_5) - 0.425*cos(theta_2)*sin(theta_1) - 0.10915*cos(theta_1) - 0.0823*cos(theta_2 + theta_3 + theta_4)*sin(theta_1)*sin(theta_5) + 0.09465*cos(theta_2 + theta_3)*sin(theta_1)*sin(theta_4) + 0.09465*sin(theta_2 + theta_3)*cos(theta_4)*sin(theta_1) - 0.39225*cos(theta_2)*cos(theta_3)*sin(theta_1),
+        0, 0.08945 - 0.425*sin(theta_2), 0.08945 - 0.425*sin(theta_2)+(0.08945 - 0.425*sin(theta_2) - 0.39225*sin(theta_2 + theta_3)-(0.08945 - 0.425*sin(theta_2)))/4, 0.08945 - 0.425*sin(theta_2)+2*(0.08945 - 0.425*sin(theta_2) - 0.39225*sin(theta_2 + theta_3)-(0.08945 - 0.425*sin(theta_2)))/4, 0.08945 - 0.425*sin(theta_2)+3*(0.08945 - 0.425*sin(theta_2) - 0.39225*sin(theta_2 + theta_3)-(0.08945 - 0.425*sin(theta_2)))/4,0.08945 - 0.425*sin(theta_2) - 0.39225*sin(theta_2 + theta_3),                                                                0.08945 - 0.425*sin(theta_2) - 0.39225*sin(theta_2 + theta_3),                                                                                                                                                                                                                                           0.08945 - 0.39225*sin(theta_2 + theta_3) - 0.425*sin(theta_2) - 0.09465*cos(theta_2 + theta_3 + theta_4),                                                                                        0.09465*sin(theta_2 + theta_3)*sin(theta_4) - 0.425*sin(theta_2) - 0.39225*sin(theta_2 + theta_3) - sin(theta_5)*(0.0823*cos(theta_2 + theta_3)*sin(theta_4) + 0.0823*sin(theta_2 + theta_3)*cos(theta_4)) - 0.09465*cos(theta_2 + theta_3)*cos(theta_4) + 0.08945;
   return mat;
 }
 
 Eigen::MatrixXf get_velocity(float theta_1, float theta_2, float theta_3, float theta_4, float theta_5, float theta_6,
-float dq1, float dq2, float dq3, float dq4, float dq5, float dq6){
-  Eigen::MatrixXf mat(24,6);
-  mat << 0.11*cos(theta_1) - 1.0*a_2*cos(theta_2)*sin(theta_1), -1.0*a_2*cos(theta_1)*sin(theta_2), 0, 0, 0, 0,
-  0.11*sin(theta_1) + a_2*cos(theta_1)*cos(theta_2), -1.0*a_2*sin(theta_1)*sin(theta_2), 0, 0, 0, 0,
-  0, a_2*cos(theta_2), 0, 0, 0, 0,
-  -0.25*sin(theta_1)*(a_3*cos(theta_2 + theta_3) + 4.0*a_2*cos(theta_2)), -0.25*cos(theta_1)*(a_3*sin(theta_2 + theta_3) + 4.0*a_2*sin(theta_2)), -0.25*a_3*sin(theta_2 + theta_3)*cos(theta_1), 0, 0, 0,
-  0.25*cos(theta_1)*(a_3*cos(theta_2 + theta_3) + 4.0*a_2*cos(theta_2)), -0.25*sin(theta_1)*(a_3*sin(theta_2 + theta_3) + 4.0*a_2*sin(theta_2)), -0.25*a_3*sin(theta_2 + theta_3)*sin(theta_1), 0, 0, 0,
-  0, 0.25*a_3*cos(theta_2 + theta_3) + a_2*cos(theta_2), 0.25*a_3*cos(theta_2 + theta_3), 0, 0, 0,
-  -0.5*sin(theta_1)*(a_3*cos(theta_2 + theta_3) + 2.0*a_2*cos(theta_2)), -0.5*cos(theta_1)*(a_3*sin(theta_2 + theta_3) + 2.0*a_2*sin(theta_2)), -0.5*a_3*sin(theta_2 + theta_3)*cos(theta_1), 0, 0, 0,
-  0.5*cos(theta_1)*(a_3*cos(theta_2 + theta_3) + 2.0*a_2*cos(theta_2)), -0.5*sin(theta_1)*(a_3*sin(theta_2 + theta_3) + 2.0*a_2*sin(theta_2)), -0.5*a_3*sin(theta_2 + theta_3)*sin(theta_1), 0, 0, 0,
-  0, 0.5*a_3*cos(theta_2 + theta_3) + a_2*cos(theta_2), 0.5*a_3*cos(theta_2 + theta_3), 0, 0, 0,
-  -0.25*sin(theta_1)*(3.0*a_3*cos(theta_2 + theta_3) + 4.0*a_2*cos(theta_2)), -0.25*cos(theta_1)*(3.0*a_3*sin(theta_2 + theta_3) + 4.0*a_2*sin(theta_2)), -0.75*a_3*sin(theta_2 + theta_3)*cos(theta_1), 0, 0, 0,
-  0.25*cos(theta_1)*(3.0*a_3*cos(theta_2 + theta_3) + 4.0*a_2*cos(theta_2)), -0.25*sin(theta_1)*(3.0*a_3*sin(theta_2 + theta_3) + 4.0*a_2*sin(theta_2)), -0.75*a_3*sin(theta_2 + theta_3)*sin(theta_1), 0, 0, 0,
-  0, 0.75*a_3*cos(theta_2 + theta_3) + a_2*cos(theta_2), 0.75*a_3*cos(theta_2 + theta_3), 0, 0, 0,
-  -1.0*sin(theta_1)*(a_3*cos(theta_2 + theta_3) + a_2*cos(theta_2)), -1.0*cos(theta_1)*(a_3*sin(theta_2 + theta_3) + a_2*sin(theta_2)), -1.0*a_3*sin(theta_2 + theta_3)*cos(theta_1), 0, 0, 0,
-  cos(theta_1)*(a_3*cos(theta_2 + theta_3) + a_2*cos(theta_2)), -1.0*sin(theta_1)*(a_3*sin(theta_2 + theta_3) + a_2*sin(theta_2)), -1.0*a_3*sin(theta_2 + theta_3)*sin(theta_1), 0, 0, 0,
-  0, a_3*cos(theta_2 + theta_3) + a_2*cos(theta_2), a_3*cos(theta_2 + theta_3), 0, 0, 0,
-  d_4*cos(theta_1) - 1.0*a_2*cos(theta_2)*sin(theta_1) - 1.0*a_3*cos(theta_2)*cos(theta_3)*sin(theta_1) + a_3*sin(theta_1)*sin(theta_2)*sin(theta_3), -1.0*cos(theta_1)*(a_3*sin(theta_2 + theta_3) + a_2*sin(theta_2)), -1.0*a_3*sin(theta_2 + theta_3)*cos(theta_1), 0, 0, 0,
-  d_4*sin(theta_1) + a_2*cos(theta_1)*cos(theta_2) + a_3*cos(theta_1)*cos(theta_2)*cos(theta_3) - 1.0*a_3*cos(theta_1)*sin(theta_2)*sin(theta_3), -1.0*sin(theta_1)*(a_3*sin(theta_2 + theta_3) + a_2*sin(theta_2)), -1.0*a_3*sin(theta_2 + theta_3)*sin(theta_1), 0, 0, 0,
-  0, a_3*cos(theta_2 + theta_3) + a_2*cos(theta_2), a_3*cos(theta_2 + theta_3), 0, 0, 0,
-  d_4*cos(theta_1) - 1.0*d_5*(cos(theta_4)*(cos(theta_2)*sin(theta_1)*sin(theta_3) + cos(theta_3)*sin(theta_1)*sin(theta_2)) - 1.0*sin(theta_4)*(sin(theta_1)*sin(theta_2)*sin(theta_3) - 1.0*cos(theta_2)*cos(theta_3)*sin(theta_1))) - 1.0*a_2*cos(theta_2)*sin(theta_1) - 1.0*a_3*cos(theta_2)*cos(theta_3)*sin(theta_1) + 1.0*a_3*sin(theta_1)*sin(theta_2)*sin(theta_3), -1.0*cos(theta_1)*(a_3*sin(theta_2 + theta_3) + a_2*sin(theta_2) - 1.0*d_5*cos(theta_2 + theta_3 + theta_4)), -1.0*cos(theta_1)*(a_3*sin(theta_2 + theta_3) - 1.0*d_5*cos(theta_2 + theta_3 + theta_4)), d_5*cos(theta_2 + theta_3 + theta_4)*cos(theta_1), 0, 0,
-  1.0*d_4*sin(theta_1) + d_5*(cos(theta_4)*(cos(theta_1)*cos(theta_2)*sin(theta_3) + cos(theta_1)*cos(theta_3)*sin(theta_2)) - 1.0*sin(theta_4)*(cos(theta_1)*sin(theta_2)*sin(theta_3) - 1.0*cos(theta_1)*cos(theta_2)*cos(theta_3))) + a_2*cos(theta_1)*cos(theta_2) + a_3*cos(theta_1)*cos(theta_2)*cos(theta_3) - 1.0*a_3*cos(theta_1)*sin(theta_2)*sin(theta_3), -1.0*sin(theta_1)*(a_3*sin(theta_2 + theta_3) + a_2*sin(theta_2) - 1.0*d_5*cos(theta_2 + theta_3 + theta_4)), -1.0*sin(theta_1)*(a_3*sin(theta_2 + theta_3) - 1.0*d_5*cos(theta_2 + theta_3 + theta_4)), d_5*cos(theta_2 + theta_3 + theta_4)*sin(theta_1), 0, 0,
-  0, a_3*cos(theta_2 + theta_3) + a_2*cos(theta_2) + d_5*sin(theta_2 + theta_3 + theta_4), a_3*cos(theta_2 + theta_3) + d_5*sin(theta_2 + theta_3 + theta_4), d_5*sin(theta_2 + theta_3 + theta_4), 0, 0,
-  0.11*cos(theta_1)*cos(theta_5) + d_6*(cos(theta_1)*cos(theta_5) + cos(theta_2 + theta_3 + theta_4)*sin(theta_1)*sin(theta_5)) + d_4*cos(theta_1) + 0.11*cos(theta_2 + theta_3 + theta_4)*sin(theta_1)*sin(theta_5) - 1.0*a_2*cos(theta_2)*sin(theta_1) - 1.0*d_5*sin(theta_2 + theta_3 + theta_4)*sin(theta_1) - 1.0*a_3*cos(theta_2)*cos(theta_3)*sin(theta_1) + 1.0*a_3*sin(theta_1)*sin(theta_2)*sin(theta_3), 0.01*cos(theta_1)*(11.0*sin(theta_2 + theta_3 + theta_4)*sin(theta_5) - 100.0*a_2*sin(theta_2) + 100.0*d_5*cos(theta_2 + theta_3 + theta_4) - 100.0*a_3*cos(theta_2)*sin(theta_3) - 100.0*a_3*cos(theta_3)*sin(theta_2) + 100.0*d_6*sin(theta_2 + theta_3 + theta_4)*sin(theta_5)), 0.01*cos(theta_1)*(11.0*sin(theta_2 + theta_3 + theta_4)*sin(theta_5) + 100.0*d_5*cos(theta_2 + theta_3 + theta_4) - 100.0*a_3*cos(theta_2)*sin(theta_3) - 100.0*a_3*cos(theta_3)*sin(theta_2) + 100.0*d_6*sin(theta_2 + theta_3 + theta_4)*sin(theta_5)), 0.01*cos(theta_1)*(11.0*sin(theta_2 + theta_3 + theta_4)*sin(theta_5) + 100.0*d_5*cos(theta_2 + theta_3 + theta_4) + 100.0*d_6*sin(theta_2 + theta_3 + theta_4)*sin(theta_5)), -1.0*(d_6 + 0.11)*(sin(theta_1)*sin(theta_5) + cos(theta_2 + theta_3 + theta_4)*cos(theta_1)*cos(theta_5)), 0,
-  0.11*cos(theta_5)*sin(theta_1) + 1.0*d_4*sin(theta_1) + 1.0*d_6*(cos(theta_5)*sin(theta_1) - 1.0*cos(theta_2 + theta_3 + theta_4)*cos(theta_1)*sin(theta_5)) - 0.11*cos(theta_2 + theta_3 + theta_4)*cos(theta_1)*sin(theta_5) + a_2*cos(theta_1)*cos(theta_2) + d_5*sin(theta_2 + theta_3 + theta_4)*cos(theta_1) + a_3*cos(theta_1)*cos(theta_2)*cos(theta_3) - 1.0*a_3*cos(theta_1)*sin(theta_2)*sin(theta_3), 0.01*sin(theta_1)*(11.0*sin(theta_2 + theta_3 + theta_4)*sin(theta_5) - 100.0*a_2*sin(theta_2) + 100.0*d_5*cos(theta_2 + theta_3 + theta_4) - 100.0*a_3*cos(theta_2)*sin(theta_3) - 100.0*a_3*cos(theta_3)*sin(theta_2) + 100.0*d_6*sin(theta_2 + theta_3 + theta_4)*sin(theta_5)), 0.01*sin(theta_1)*(11.0*sin(theta_2 + theta_3 + theta_4)*sin(theta_5) + 100.0*d_5*cos(theta_2 + theta_3 + theta_4) - 100.0*a_3*cos(theta_2)*sin(theta_3) - 100.0*a_3*cos(theta_3)*sin(theta_2) + 100.0*d_6*sin(theta_2 + theta_3 + theta_4)*sin(theta_5)), 0.01*sin(theta_1)*(11.0*sin(theta_2 + theta_3 + theta_4)*sin(theta_5) + 100.0*d_5*cos(theta_2 + theta_3 + theta_4) + 100.0*d_6*sin(theta_2 + theta_3 + theta_4)*sin(theta_5)), (d_6 + 0.11)*(cos(theta_1)*sin(theta_5) - 1.0*cos(theta_2 + theta_3 + theta_4)*cos(theta_5)*sin(theta_1)), 0,
-  0, a_3*cos(theta_2 + theta_3) + sin(theta_5)*(0.11*sin(theta_2 + theta_3)*sin(theta_4) - 0.11*cos(theta_2 + theta_3)*cos(theta_4)) + 1.0*d_5*(1.0*cos(theta_2 + theta_3)*sin(theta_4) + 1.0*sin(theta_2 + theta_3)*cos(theta_4)) + a_2*cos(theta_2) + 1.0*d_6*sin(theta_5)*(1.0*sin(theta_2 + theta_3)*sin(theta_4) - 1.0*cos(theta_2 + theta_3)*cos(theta_4)), a_3*cos(theta_2 + theta_3) - 0.11*cos(theta_2 + theta_3 + theta_4)*sin(theta_5) + d_5*sin(theta_2 + theta_3 + theta_4) - 1.0*d_6*cos(theta_2 + theta_3 + theta_4)*sin(theta_5), d_5*sin(theta_2 + theta_3 + theta_4) - 0.11*cos(theta_2 + theta_3 + theta_4)*sin(theta_5) - 1.0*d_6*cos(theta_2 + theta_3 + theta_4)*sin(theta_5), -1.0*sin(theta_2 + theta_3 + theta_4)*cos(theta_5)*(d_6 + 0.11), 0;
-  
-  Eigen::MatrixXf vec(6,1);
-  vec << dq1, dq2, dq3, dq4, dq5, dq6;
-	
-  return mat*vec;
+                             float u_1, float u_2, float u_3, float u_4, float u_5, float u_6){
+	Eigen::MatrixXf mat(24,1);
+  mat <<0.425*u_1*cos(theta_2)*sin(theta_1) + 0.425*u_2*cos(theta_1)*sin(theta_2),
+        0.425*u_2*sin(theta_1)*sin(theta_2) - 0.425*u_1*cos(theta_1)*cos(theta_2),
+        -0.425*u_2*cos(theta_2),
+        0.425*u_1*cos(theta_2)*sin(theta_1) + 0.425*u_2*cos(theta_1)*sin(theta_2)+1/4*(u_2*(0.425*cos(theta_1)*sin(theta_2) + 0.39225*cos(theta_1)*cos(theta_2)*sin(theta_3) + 0.39225*cos(theta_1)*cos(theta_3)*sin(theta_2)) + u_1*(0.425*cos(theta_2)*sin(theta_1) - 0.39225*sin(theta_1)*sin(theta_2)*sin(theta_3) + 0.39225*cos(theta_2)*cos(theta_3)*sin(theta_1)) + u_3*(0.39225*cos(theta_1)*cos(theta_2)*sin(theta_3) + 0.39225*cos(theta_1)*cos(theta_3)*sin(theta_2))-(0.425*u_1*cos(theta_2)*sin(theta_1) + 0.425*u_2*cos(theta_1)*sin(theta_2))),
+        0.425*u_2*sin(theta_1)*sin(theta_2) - 0.425*u_1*cos(theta_1)*cos(theta_2)+1/4*(u_3*(0.39225*cos(theta_2)*sin(theta_1)*sin(theta_3) + 0.39225*cos(theta_3)*sin(theta_1)*sin(theta_2)) - 1.0*u_1*(0.425*cos(theta_1)*cos(theta_2) - 0.39225*cos(theta_1)*sin(theta_2)*sin(theta_3) + 0.39225*cos(theta_1)*cos(theta_2)*cos(theta_3)) + u_2*(0.425*sin(theta_1)*sin(theta_2) + 0.39225*cos(theta_2)*sin(theta_1)*sin(theta_3) + 0.39225*cos(theta_3)*sin(theta_1)*sin(theta_2))-(0.425*u_2*sin(theta_1)*sin(theta_2) - 0.425*u_1*cos(theta_1)*cos(theta_2))),
+        -0.425*u_2*cos(theta_2)+1/4*(- 1.0*u_2*(0.39225*cos(theta_2 + theta_3) + 0.425*cos(theta_2)) - 0.39225*u_3*cos(theta_2 + theta_3)-(-0.425*u_2*cos(theta_2))),
+        0.425*u_1*cos(theta_2)*sin(theta_1) + 0.425*u_2*cos(theta_1)*sin(theta_2)+2/4*(u_2*(0.425*cos(theta_1)*sin(theta_2) + 0.39225*cos(theta_1)*cos(theta_2)*sin(theta_3) + 0.39225*cos(theta_1)*cos(theta_3)*sin(theta_2)) + u_1*(0.425*cos(theta_2)*sin(theta_1) - 0.39225*sin(theta_1)*sin(theta_2)*sin(theta_3) + 0.39225*cos(theta_2)*cos(theta_3)*sin(theta_1)) + u_3*(0.39225*cos(theta_1)*cos(theta_2)*sin(theta_3) + 0.39225*cos(theta_1)*cos(theta_3)*sin(theta_2))-(0.425*u_1*cos(theta_2)*sin(theta_1) + 0.425*u_2*cos(theta_1)*sin(theta_2))),
+        0.425*u_2*sin(theta_1)*sin(theta_2) - 0.425*u_1*cos(theta_1)*cos(theta_2)+2/4*(u_3*(0.39225*cos(theta_2)*sin(theta_1)*sin(theta_3) + 0.39225*cos(theta_3)*sin(theta_1)*sin(theta_2)) - 1.0*u_1*(0.425*cos(theta_1)*cos(theta_2) - 0.39225*cos(theta_1)*sin(theta_2)*sin(theta_3) + 0.39225*cos(theta_1)*cos(theta_2)*cos(theta_3)) + u_2*(0.425*sin(theta_1)*sin(theta_2) + 0.39225*cos(theta_2)*sin(theta_1)*sin(theta_3) + 0.39225*cos(theta_3)*sin(theta_1)*sin(theta_2))-(0.425*u_2*sin(theta_1)*sin(theta_2) - 0.425*u_1*cos(theta_1)*cos(theta_2))),
+        -0.425*u_2*cos(theta_2)+2/4*(- 1.0*u_2*(0.39225*cos(theta_2 + theta_3) + 0.425*cos(theta_2)) - 0.39225*u_3*cos(theta_2 + theta_3)-(-0.425*u_2*cos(theta_2))),
+        0.425*u_1*cos(theta_2)*sin(theta_1) + 0.425*u_2*cos(theta_1)*sin(theta_2)+3/4*(u_2*(0.425*cos(theta_1)*sin(theta_2) + 0.39225*cos(theta_1)*cos(theta_2)*sin(theta_3) + 0.39225*cos(theta_1)*cos(theta_3)*sin(theta_2)) + u_1*(0.425*cos(theta_2)*sin(theta_1) - 0.39225*sin(theta_1)*sin(theta_2)*sin(theta_3) + 0.39225*cos(theta_2)*cos(theta_3)*sin(theta_1)) + u_3*(0.39225*cos(theta_1)*cos(theta_2)*sin(theta_3) + 0.39225*cos(theta_1)*cos(theta_3)*sin(theta_2))-(0.425*u_1*cos(theta_2)*sin(theta_1) + 0.425*u_2*cos(theta_1)*sin(theta_2))),
+        0.425*u_2*sin(theta_1)*sin(theta_2) - 0.425*u_1*cos(theta_1)*cos(theta_2)+3/4*(u_3*(0.39225*cos(theta_2)*sin(theta_1)*sin(theta_3) + 0.39225*cos(theta_3)*sin(theta_1)*sin(theta_2)) - 1.0*u_1*(0.425*cos(theta_1)*cos(theta_2) - 0.39225*cos(theta_1)*sin(theta_2)*sin(theta_3) + 0.39225*cos(theta_1)*cos(theta_2)*cos(theta_3)) + u_2*(0.425*sin(theta_1)*sin(theta_2) + 0.39225*cos(theta_2)*sin(theta_1)*sin(theta_3) + 0.39225*cos(theta_3)*sin(theta_1)*sin(theta_2))-(0.425*u_2*sin(theta_1)*sin(theta_2) - 0.425*u_1*cos(theta_1)*cos(theta_2))),
+        -0.425*u_2*cos(theta_2)+3/4*(- 1.0*u_2*(0.39225*cos(theta_2 + theta_3) + 0.425*cos(theta_2)) - 0.39225*u_3*cos(theta_2 + theta_3)-(-0.425*u_2*cos(theta_2))),
+        u_2*(0.425*cos(theta_1)*sin(theta_2) + 0.39225*cos(theta_1)*cos(theta_2)*sin(theta_3) + 0.39225*cos(theta_1)*cos(theta_3)*sin(theta_2)) + u_1*(0.425*cos(theta_2)*sin(theta_1) - 0.39225*sin(theta_1)*sin(theta_2)*sin(theta_3) + 0.39225*cos(theta_2)*cos(theta_3)*sin(theta_1)) + u_3*(0.39225*cos(theta_1)*cos(theta_2)*sin(theta_3) + 0.39225*cos(theta_1)*cos(theta_3)*sin(theta_2)),
+        u_3*(0.39225*cos(theta_2)*sin(theta_1)*sin(theta_3) + 0.39225*cos(theta_3)*sin(theta_1)*sin(theta_2)) - 1.0*u_1*(0.425*cos(theta_1)*cos(theta_2) - 0.39225*cos(theta_1)*sin(theta_2)*sin(theta_3) + 0.39225*cos(theta_1)*cos(theta_2)*cos(theta_3)) + u_2*(0.425*sin(theta_1)*sin(theta_2) + 0.39225*cos(theta_2)*sin(theta_1)*sin(theta_3) + 0.39225*cos(theta_3)*sin(theta_1)*sin(theta_2)),
+        - 1.0*u_2*(0.39225*cos(theta_2 + theta_3) + 0.425*cos(theta_2)) - 0.39225*u_3*cos(theta_2 + theta_3),
+        u_1*(0.10915*cos(theta_1) + 0.425*cos(theta_2)*sin(theta_1) - 0.39225*sin(theta_1)*sin(theta_2)*sin(theta_3) + 0.39225*cos(theta_2)*cos(theta_3)*sin(theta_1)) + 0.00025*u_2*cos(theta_1)*(1569.0*sin(theta_2 + theta_3) + 1700.0*sin(theta_2)) + 0.39225*u_3*sin(theta_2 + theta_3)*cos(theta_1),
+        u_1*(0.10915*sin(theta_1) - 0.425*cos(theta_1)*cos(theta_2) + 0.39225*cos(theta_1)*sin(theta_2)*sin(theta_3) - 0.39225*cos(theta_1)*cos(theta_2)*cos(theta_3)) + 0.00025*u_2*sin(theta_1)*(1569.0*sin(theta_2 + theta_3) + 1700.0*sin(theta_2)) + 0.39225*u_3*sin(theta_2 + theta_3)*sin(theta_1),
+        - 1.0*u_2*(0.39225*cos(theta_2 + theta_3) + 0.425*cos(theta_2)) - 0.39225*u_3*cos(theta_2 + theta_3),
+        u_1*(0.10915*cos(theta_1) + 0.425*cos(theta_2)*sin(theta_1) - 0.39225*sin(theta_1)*sin(theta_2)*sin(theta_3) - 0.09465*cos(theta_2 + theta_3)*sin(theta_1)*sin(theta_4) - 0.09465*sin(theta_2 + theta_3)*cos(theta_4)*sin(theta_1) + 0.39225*cos(theta_2)*cos(theta_3)*sin(theta_1)) + 0.00005*u_2*cos(theta_1)*(1893.0*cos(theta_2 + theta_3 + theta_4) + 7845.0*sin(theta_2 + theta_3) + 8500.0*sin(theta_2)) + 0.00015*u_3*cos(theta_1)*(631.0*cos(theta_2 + theta_3 + theta_4) + 2615.0*sin(theta_2 + theta_3)) + 0.09465*u_4*cos(theta_2 + theta_3 + theta_4)*cos(theta_1),
+        u_1*(0.10915*sin(theta_1) - 0.425*cos(theta_1)*cos(theta_2) + 0.39225*cos(theta_1)*sin(theta_2)*sin(theta_3) + 0.09465*cos(theta_2 + theta_3)*cos(theta_1)*sin(theta_4) + 0.09465*sin(theta_2 + theta_3)*cos(theta_1)*cos(theta_4) - 0.39225*cos(theta_1)*cos(theta_2)*cos(theta_3)) + 0.00005*u_2*sin(theta_1)*(1893.0*cos(theta_2 + theta_3 + theta_4) + 7845.0*sin(theta_2 + theta_3) + 8500.0*sin(theta_2)) + 0.00015*u_3*sin(theta_1)*(631.0*cos(theta_2 + theta_3 + theta_4) + 2615.0*sin(theta_2 + theta_3)) + 0.09465*u_4*cos(theta_2 + theta_3 + theta_4)*sin(theta_1),
+        0.09465*u_2*sin(theta_2 + theta_3 + theta_4) + 0.09465*u_3*sin(theta_2 + theta_3 + theta_4) + 0.09465*u_4*sin(theta_2 + theta_3 + theta_4) - 0.39225*u_2*cos(theta_2 + theta_3) - 0.39225*u_3*cos(theta_2 + theta_3) - 0.425*u_2*cos(theta_2),
+        u_1*(0.10915*cos(theta_1) + 0.0823*cos(theta_1)*cos(theta_5) + 0.425*cos(theta_2)*sin(theta_1) - 0.39225*sin(theta_1)*sin(theta_2)*sin(theta_3) + 0.0823*cos(theta_2 + theta_3 + theta_4)*sin(theta_1)*sin(theta_5) - 0.09465*cos(theta_2 + theta_3)*sin(theta_1)*sin(theta_4) - 0.09465*sin(theta_2 + theta_3)*cos(theta_4)*sin(theta_1) + 0.39225*cos(theta_2)*cos(theta_3)*sin(theta_1)) - 1.0*u_5*(0.0823*sin(theta_1)*sin(theta_5) + 0.0823*cos(theta_2 + theta_3 + theta_4)*cos(theta_1)*cos(theta_5)) + 0.00005*u_2*cos(theta_1)*(1893.0*cos(theta_2 + theta_3 + theta_4) + 823.0*cos(theta_2 + theta_3 + theta_4 - 1.0*theta_5) - 823.0*cos(theta_2 + theta_3 + theta_4 + theta_5) + 7845.0*sin(theta_2 + theta_3) + 8500.0*sin(theta_2)) + 0.00005*u_4*cos(theta_1)*(1646.0*sin(theta_2 + theta_3 + theta_4)*sin(theta_5) - 1893.0*sin(theta_2 + theta_3)*sin(theta_4) + 1893.0*cos(theta_2 + theta_3)*cos(theta_4)) + 0.00005*u_3*cos(theta_1)*(1893.0*cos(theta_2 + theta_3 + theta_4) + 823.0*cos(theta_2 + theta_3 + theta_4 - 1.0*theta_5) - 823.0*cos(theta_2 + theta_3 + theta_4 + theta_5) + 7845.0*sin(theta_2 + theta_3)),
+        u_5*(0.0823*cos(theta_1)*sin(theta_5) - 0.0823*cos(theta_2 + theta_3 + theta_4)*cos(theta_5)*sin(theta_1)) + u_1*(0.10915*sin(theta_1) - 0.425*cos(theta_1)*cos(theta_2) + 0.0823*cos(theta_5)*sin(theta_1) + 0.39225*cos(theta_1)*sin(theta_2)*sin(theta_3) - 0.0823*cos(theta_2 + theta_3 + theta_4)*cos(theta_1)*sin(theta_5) + 0.09465*cos(theta_2 + theta_3)*cos(theta_1)*sin(theta_4) + 0.09465*sin(theta_2 + theta_3)*cos(theta_1)*cos(theta_4) - 0.39225*cos(theta_1)*cos(theta_2)*cos(theta_3)) + 0.00005*u_2*sin(theta_1)*(1893.0*cos(theta_2 + theta_3 + theta_4) + 823.0*cos(theta_2 + theta_3 + theta_4 - 1.0*theta_5) - 823.0*cos(theta_2 + theta_3 + theta_4 + theta_5) + 7845.0*sin(theta_2 + theta_3) + 8500.0*sin(theta_2)) + 0.00005*u_4*sin(theta_1)*(1646.0*sin(theta_2 + theta_3 + theta_4)*sin(theta_5) - 1893.0*sin(theta_2 + theta_3)*sin(theta_4) + 1893.0*cos(theta_2 + theta_3)*cos(theta_4)) + 0.00005*u_3*sin(theta_1)*(1893.0*cos(theta_2 + theta_3 + theta_4) + 823.0*cos(theta_2 + theta_3 + theta_4 - 1.0*theta_5) - 823.0*cos(theta_2 + theta_3 + theta_4 + theta_5) + 7845.0*sin(theta_2 + theta_3)),
+        u_4*(0.09465*sin(theta_2 + theta_3 + theta_4) - 0.0823*cos(theta_2 + theta_3 + theta_4)*sin(theta_5)) - 1.0*u_3*(0.39225*cos(theta_2 + theta_3) - 0.09465*sin(theta_2 + theta_3 + theta_4) + 0.0823*cos(theta_2 + theta_3 + theta_4)*sin(theta_5)) - 1.0*u_2*(0.39225*cos(theta_2 + theta_3) + 0.425*cos(theta_2) - 0.09465*cos(theta_2 + theta_3)*sin(theta_4) - 0.09465*sin(theta_2 + theta_3)*cos(theta_4) + 0.0823*cos(theta_2 + theta_3)*cos(theta_4)*sin(theta_5) - 0.0823*sin(theta_2 + theta_3)*sin(theta_4)*sin(theta_5)) - 0.0823*u_5*sin(theta_2 + theta_3 + theta_4)*cos(theta_5);
+    return mat;
 }
+
 // Introduce class to make safer goal change
 class GoalFollower 
 { 
@@ -80,60 +78,59 @@ class GoalFollower
 
     // Data Members 
     ros::Publisher chatter_pub;
-
     double robot_spheres[8] = {0.29, 0.13, 0.13, 0.13, 0.13, 0.15, 0.12, 0.18};
-    double human_sphere[56]= {124.45,   85.11,   1749.08,   0.15,
+
+    double human_sphere[56]= {124.45,   85.11,   1749.08,   0.5510,
                               199.27,   83.75,   1461.56,   0.6010,
-                              98.34,   -126.49,  1558.72,   0.5010,
+                              98.34,    -126.49, 1558.72,   0.5010,
                               126.02,   302.08,  1570.41,   0.5010,
-                              92.81,   -116.45,  1386.66,   0.5010,
-                              117.63,  293.61,   1397.60,   0.5010,
-                              87.28,   -106.41,  1214.60,   0.5010,
+                              92.81,    -116.45, 1386.66,   0.5010,
+                              117.63,   293.61,  1397.60,   0.5010,
+                              87.28,    -106.41, 1214.60,   0.5010,
                               109.24,   285.14,  1224.80,   0.5010,
-                              97.63,   -104.64,  1050.28,   0.4510,
+                              97.63,    -104.64, 1050.28,   0.4510,
                               116.14,   286.97,  1060.32,   0.4510,
-                              112.92,   -101.01, 876.64,   0.4810,
-                              128.76,   286.75,  886.33,   0.4810,
-                              59.36,   89.71,   1600.76,   0.5510,
-                              50.81,   98.26,   1291.22,   0.6010};
+                              112.92,   -101.01, 876.64,    0.4810,
+                              128.76,   286.75,  886.33,    0.4810,
+                              59.36,    89.71,   1600.76,   0.5510,
+                              50.81,    98.26,   1291.22,   0.6010};
 
    double velocity_sphere[56]= {0.0,   0.0,   0.0,   0.0,
-                          0.0,   0.0,   0.0,   0.0,
-                          0.0,   0.0,   0.0,   0.0,
-                          0.0,   0.0,   0.0,   0.0,
-                          0.0,   0.0,   0.0,   0.0,
-                          0.0,   0.0,   0.0,   0.0,
-                          0.0,   0.0,   0.0,   0.0,
-                          0.0,   0.0,   0.0,   0.0,
-                          0.0,   0.0,   0.0,   0.0,
-                          0.0,   0.0,   0.0,   0.0,
-                          0.0,   0.0,   0.0,   0.0,
-                          0.0,   0.0,   0.0,   0.0,
-                          0.0,   0.0,   0.0,   0.0,
-                          0.0,   0.0,   0.0,   0.0};
+                                0.0,   0.0,   0.0,   0.0,
+                                0.0,   0.0,   0.0,   0.0,
+                                0.0,   0.0,   0.0,   0.0,
+                                0.0,   0.0,   0.0,   0.0,
+                                0.0,   0.0,   0.0,   0.0,
+                                0.0,   0.0,   0.0,   0.0,
+                                0.0,   0.0,   0.0,   0.0,
+                                0.0,   0.0,   0.0,   0.0,
+                                0.0,   0.0,   0.0,   0.0,
+                                0.0,   0.0,   0.0,   0.0,
+                                0.0,   0.0,   0.0,   0.0,
+                                0.0,   0.0,   0.0,   0.0,
+                                0.0,   0.0,   0.0,   0.0};
 
-    // CHANGED
     double goal[6] = {0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000};
     double goal_queue[120] = {0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 
-                            0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 
-                            0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 
-                            0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
-                            0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 
-                            0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 
-                            0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 
-                            0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
-                            0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
-                            0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
-                            0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
-                            0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
-                            0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
-                            0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
-                            0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
-                            0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
-                            0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
-                            0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
-                            0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
-                            0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000};
+                              0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 
+                              0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 
+                              0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
+                              0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 
+                              0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 
+                              0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 
+                              0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
+                              0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
+                              0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
+                              0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
+                              0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
+                              0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
+                              0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
+                              0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
+                              0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
+                              0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
+                              0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
+                              0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
+                              0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000};
 
     // what comand vel is?
     double comand_vel[6] = {0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000};
@@ -146,11 +143,17 @@ class GoalFollower
     // human sphere_test points distances:
     double dist_vrep[112] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     double human_vrep[42] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    double real_q_goal[6] = {0,0,0,0,0,0};
     double joint_speed[6] = {0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000};
+    double from_high[18] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+
     // Member Functions() 
     void change_obstacles_msg(const std_msgs::Float64MultiArray obstacle_data) 
     { 
-      for (int i=0; i<56; i++) human_sphere[i] = obstacle_data.data[i];
+      for (int i=0; i<56; i++){
+        human_sphere[i] = obstacle_data.data[i];
+        // printf("Human %i=%f\n",i,human_sphere[i]);
+      }
     }
 
     void change_human_speed_msg(const std_msgs::Float64MultiArray velocity_data) 
@@ -182,30 +185,6 @@ class GoalFollower
       }
     }
 
-    void change_goal_msg_test(const std_msgs::Float64MultiArray joint_pose_values) 
-    {
-      for (int j=0; j<5; j++) {
-        for (int i=0; i<6; i++){ 
-          goal_queue[j*6+i] = joint_pose_values.data[i]*(0.050*(j+5)) + joint_pose_values.data[i+12]; 
-        }
-      }
-      for (int j=5; j<15; j++) {
-        for (int i=0; i<6; i++){ 
-          goal_queue[j*6+i] = joint_pose_values.data[i+6]*(0.050*(j-5)) + goal_queue[4*6+i]; 
-        }
-      }
-      for (int i=0; i<6; i++) goal[i] = goal_queue[i];
-      int correction_steps = 0;
-      int joint_corrections = 0;
-      for (int i = 0; i < 14; i++) {
-        joint_corrections = 0;
-        for (int j=0; j < 6; j++) {
-          if ((joint_position[j] - goal_queue[i*6+j])>(goal_queue[(i+1)*6+j] - goal_queue[i*6+j])) joint_corrections++;
-        }
-        if (joint_corrections>3) correction_steps++;
-       }
-    }
-
     void change_states_msg(const std_msgs::Float64MultiArray::ConstPtr& msg) 
     {
       for (int i=0; i<6; i++) joint_position[i] = msg->data[i];
@@ -221,18 +200,27 @@ class GoalFollower
     {
       for (int i=0; i<24; i++) ctv_vrep[i] = msg->data[i];
     }
+
     void distances(const std_msgs::Float64MultiArray::ConstPtr& msg) 
     {
       for (int i=0; i<112; i++) dist_vrep[i] = msg->data[i];
     }
+
     void vrep_h(const std_msgs::Float64MultiArray::ConstPtr& msg) 
     {
       for (int i=0; i<42; i++) human_vrep[i] = msg->data[i];
     }
+
+    void change_real_goal(const std_msgs::Float64MultiArray::ConstPtr& msg) 
+    {
+      for (int i=0; i<6; i++) real_q_goal[i] = msg->data[i];
+    }
+  
     void SendVelocity(const std_msgs::Float64MultiArray joint_vel_values){
     	chatter_pub.publish(joint_vel_values);
 	    return;
     }
+    
 }; 
 
 int main(int argc, char **argv)
@@ -259,15 +247,16 @@ int main(int argc, char **argv)
   ros::Subscriber vrep_test_points_vel = n.subscribe("/testPointsVel", 1, &GoalFollower::test_points_vel, &my_follower);
   ros::Subscriber vrep_distances = n.subscribe("/distance", 1, &GoalFollower::distances, &my_follower);
   ros::Subscriber vrep_human = n.subscribe("/humanRealPositions", 1, &GoalFollower::vrep_h, &my_follower);
+  ros::Subscriber real_joint_goal = n.subscribe("/my_ur5/q_goal", 1, &GoalFollower::change_real_goal, &my_follower);
 
   ros::Subscriber joint_status = n.subscribe("/joint_states_low", 1, &GoalFollower::change_states_msg, &my_follower);
   ros::Subscriber joint_goal = n.subscribe("/my_ur5/mpc_high_positions", 1, &GoalFollower::change_goal_msg, &my_follower);
-  ros::Subscriber joint_goal_test = n.subscribe("/my_ur5/mpc_high_positions_test", 1, &GoalFollower::change_goal_msg_test, &my_follower);
   ros::Subscriber human_status = n.subscribe("/vrep/my_ur5/mpc_low_spheres", 1, &GoalFollower::change_obstacles_msg, &my_follower);
   ros::Subscriber human_speed = n.subscribe("/vrep/spheres_speed", 1, &GoalFollower::change_human_speed_msg, &my_follower);
-  ros::Subscriber human_dist = n.subscribe("/vrep/spheres_speed", 1, &GoalFollower::change_human_speed_msg, &my_follower);
+
   double smallest_dist;
   double local_val;
+  double vrep_val;
   double dist_val[112] = {0,0,0,0,0,0,0,0,
                           0,0,0,0,0,0,0,0,
                           0,0,0,0,0,0,0,0,
@@ -286,7 +275,7 @@ int main(int argc, char **argv)
   double ctp[24] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
   // linear vels of 8 test points:
   double ctv[24] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-//   min dist has 8 values for 8 test points:
+  // min dist has 8 values for 8 test points:
   double min_dist[] = {10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000};
   ros::Rate loop_rate(20);
 
@@ -298,42 +287,33 @@ int main(int argc, char **argv)
     for (int i=0; i<6; i++) my_follower.goal[i] = my_follower.goal_queue[i];
     // define tracking goal
     for (int i=0; i<60; i++) tracking_goal[i] = my_follower.goal_queue[i];
-    // Check if arrived
-    // float max_diff = 0;
-    // float temp = 0;
-    // for (int i = 0; i < 6; ++i) {
-    //   temp = abs(my_follower.goal[i] - my_follower.joint_position[i]);
-    //   if (temp > max_diff) {
-    //     max_diff = temp; 
-    //   }
-    // }
     // Advance the goal
     for (int j=0; j<14; j++) {
-      for (int i=0; i<6; i++){ 
-        my_follower.goal_queue[j*6+i] = my_follower.goal_queue[(j+1)*6+i]; 
-      }
+      for (int i=0; i<6; i++) my_follower.goal_queue[j*6+i] = my_follower.goal_queue[(j+1)*6+i]; 
     }
     for (int i=0; i<6; i++) my_follower.goal_queue[14*6+i] = my_follower.goal_queue[13*6+i];
-      //******************* get_min_dist **********************
+
+    //******************* get_min_dist **********************
     local_val = 10000;
 	  smallest_dist = 10000;
-    // we have 8 test point on the ur5 robot:
+
+    // for 8 points on UR5:
     min_dist[0] = 10000; min_dist[1] = 10000; min_dist[2] = 10000; min_dist[3] = 10000;
     min_dist[4] = 10000; min_dist[5] = 10000; min_dist[6] = 10000; min_dist[7] = 10000;
     double spheres_dist[] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
     Eigen::MatrixXf mat2 = get_cpose(my_follower.joint_position[0], my_follower.joint_position[1],
-                                    my_follower.joint_position[2], my_follower.joint_position[3],
-                                    my_follower.joint_position[4], my_follower.joint_position[5]);
+                                     my_follower.joint_position[2], my_follower.joint_position[3],
+                                     my_follower.joint_position[4], my_follower.joint_position[5]);
     int iter = 0;
+
     for (int j = 0; j < 8; j++) {
       Eigen::Vector3f w;
       w = mat2.col(j+1).transpose();
-      // printf("j = %i,w = %f,%f,%f\n",j,w[0],w[1],w[2]);
       ctp[j*3+0] = w[0];
       ctp[j*3+1] = w[1];
       ctp[j*3+2] = w[2];
       for (int k = 0; k < 14; k++) {
-        Eigen::Vector3f p(my_follower.human_sphere[k*4+0],my_follower.human_sphere[k*4+1],my_follower.human_sphere[k*4+2]);
+        Eigen::Vector3f p(my_follower.human_sphere[k*4+0], my_follower.human_sphere[k*4+1], my_follower.human_sphere[k*4+2]);
         local_val = dist_v(w, p) - my_follower.robot_spheres[j] - my_follower.human_sphere[k*4+3];
         dist_val[iter] = local_val;
         iter+=1;
@@ -344,37 +324,41 @@ int main(int argc, char **argv)
       }
 	    if (smallest_dist > min_dist[j]) smallest_dist = min_dist[j];
 	  }
-    // printf("CTP_form 8 = %f,%f,%f\n",ctp[21],ctp[22],ctp[23]);
-    // Eigen::Vector3f end_effector_pose = mat2.col(7);
 
     double* solutions;
     if (smallest_dist >= 0.00) {
       // Goal reference position 
-      for (int i = 0; i < 6; ++i) currentState_targetValue[i] = my_follower.joint_position[i];
-      for (int i = 0; i < 6; ++i) currentState_targetValue[i+6] = my_follower.goal[i];
+      for (int i = 0; i < 6; ++i)  currentState_targetValue[i] = my_follower.joint_position[i];
+      for (int i = 0; i < 6; ++i)  currentState_targetValue[i+6] = my_follower.goal[i];
       for (int i = 0; i < 56; ++i) currentState_targetValue[i+12] = my_follower.human_sphere[i];
+      // for (int i = 0; i < 68; ++i) printf("CS_TV %i=%f\n", i, currentState_targetValue[i]);
+      // for (int i = 0; i < 60; ++i) printf("tracking_goal %i=%f\n", i, tracking_goal[i]);
       msg.data = 1;
       // PauseLow.publish(msg);
       solutions = myMpcSolver.solve_mpc(currentState_targetValue, tracking_goal);
       msg.data = 0;
       // PauseLow.publish(msg);
     } else for (int i=0; i<8; i++) solutions[i] = 0;
-
+    
+    
         //******************* get_min_velocity **********************
     double max_vell[] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 
     Eigen::MatrixXf vell_mat = get_velocity(my_follower.joint_position[0], my_follower.joint_position[1], 
-                       my_follower.joint_position[2], my_follower.joint_position[3], my_follower.joint_position[4],
-                       my_follower.joint_position[5],
-                       solutions[0], solutions[1], solutions[2],
-                       solutions[3], solutions[4], solutions[5]);
+                                            my_follower.joint_position[2], my_follower.joint_position[3],
+                                            my_follower.joint_position[4], my_follower.joint_position[5],
+                                            solutions[0], solutions[1], solutions[2],
+                                            solutions[3], solutions[4], solutions[5]);
     double max_linear_vell = 0;
     double temp_linear_vell = 0;
     for (int k=0; k<8; k++) {
       ctv[k*3+0] = vell_mat.coeff(k*3+0,0);
       ctv[k*3+1] = vell_mat.coeff(k*3+1,0);
       ctv[k*3+2] = vell_mat.coeff(k*3+2,0);
+      
+      // temp_linear_vell = sqrt(my_follower.ctv_vrep[k*3 + 0]*my_follower.ctv_vrep[k*3 + 0] + my_follower.ctv_vrep[k*3 + 1]*my_follower.ctv_vrep[k*3 + 1] + my_follower.ctv_vrep[k*3 + 2]*my_follower.ctv_vrep[k*3 + 2]);
       temp_linear_vell = sqrt(vell_mat.coeff(k*3 + 0,0)*vell_mat.coeff(k*3 + 0,0) + vell_mat.coeff(k*3 + 1,0)*vell_mat.coeff(k*3 + 1,0) + vell_mat.coeff(k*3 + 2,0)*vell_mat.coeff(k*3 + 2,0));
+      
       max_vell[k] = temp_linear_vell;
       if (max_linear_vell < temp_linear_vell) max_linear_vell = temp_linear_vell;
       // ROS_INFO("temp_linear_vell %.3f", temp_linear_vell);
@@ -382,23 +366,31 @@ int main(int argc, char **argv)
        //*********************** Apply control ********************************
 	  double lin_vell_limit_arr[] = {10, 10, 10, 10, 10, 10, 10, 10};
     double lin_vell_scale = 10;
-    double alpha = 0.85; //v_mpc_lim = alpha^2.*((min_dist_arr+spheres_dist).^2-spheres_dist.^2);
+    double alpha = 0.8; //v_mpc_lim = alpha^2.*((min_dist_arr+spheres_dist).^2-spheres_dist.^2);
 
-	  for (int i=0;i<8;i++) {
-      lin_vell_limit_arr[i] = alpha*alpha*((min_dist[i]+spheres_dist[i])*(min_dist[i]+spheres_dist[i])-spheres_dist[i]*spheres_dist[i]);
-      if (lin_vell_limit_arr[i]<0) lin_vell_limit_arr[i] = 0.00000000000000;
+    double sqrt_temp_value = 0.00;
+    for (int i=0;i<8;i++) {
+      sqrt_temp_value = (min_dist[i]+spheres_dist[i])*(min_dist[i]+spheres_dist[i])-spheres_dist[i]*spheres_dist[i];
+
+      if (sqrt_temp_value<0) lin_vell_limit_arr[i] = 0.00000000000000;
+      else lin_vell_limit_arr[i] = alpha*sqrt(sqrt_temp_value);
+
       double temp_scale = (lin_vell_limit_arr[i]/max_vell[i]);
       if (lin_vell_scale>temp_scale) lin_vell_scale = temp_scale;
     }
+
     if (lin_vell_scale<1.0) {
       for (int i = 0; i < 6; i++) solutions[i] = solutions[i]*lin_vell_scale;
     }
     // ROS_INFO("Max lin vell %.3f, Vel Index %.3f", max_linear_vell, lin_vell_scale);
-
+    // for (int i=0; i<6; i++) printf("s %i=%f\n", i, solutions[i]);
+    // for (int i=0; i<24; i++) printf("s %i=%f\n", i, ctp[i]);
     // prepare to send commands
     std_msgs::Float64MultiArray joint_vel_values;
     joint_vel_values.data.clear();
     for (int i = 0; i < 6; i++) joint_vel_values.data.push_back(solutions[i]);
+    for (int i = 0; i < 24; i++) joint_vel_values.data.push_back(ctp[i]);
+
     my_follower.SendVelocity(joint_vel_values);
     
     // save data
@@ -496,8 +488,19 @@ int main(int argc, char **argv)
       myfile <<my_follower.joint_speed[2]<<" "<<my_follower.joint_speed[3]<<" "<<my_follower.joint_speed[4]<<" ";
       myfile <<my_follower.joint_speed[5]<<" "<<solutions[0]<<" " <<solutions[1]<<" "<<solutions[2]<<" "<<solutions[3]<<" ";
       myfile <<solutions[4]<<" "<<solutions[5]<<" "<<min_dist[0]<<" "<<min_dist[1]<<" "<<min_dist[2]<<" "<<min_dist[3]<<" ";
-      myfile <<min_dist[4]<<" "<<min_dist[5]<<" "<<min_dist[6]<<" "<<min_dist[7]<<" "<<endl;
-    }
+      myfile <<min_dist[4]<<" "<<min_dist[5]<<" "<<min_dist[6]<<" "<<min_dist[7]<<" ";
+      myfile <<my_follower.real_q_goal[0]<<" "<<my_follower.real_q_goal[1]<<" "<<my_follower.real_q_goal[2]<<" "<<my_follower.real_q_goal[3]<<" "<<my_follower.real_q_goal[4]<<" "<<my_follower.real_q_goal[5]<<" ";
+      myfile <<ctv[0]<<" "<<ctv[1]<<" "<<ctv[2]<<" "<<ctv[3]<<" "<<ctv[4]<<" "<<ctv[5]<<" "<<ctv[6]<<" "<<ctv[7]<<" "<<ctv[8]<<" ";
+      myfile <<ctv[9]<<" "<<ctv[10]<<" "<<ctv[11]<<" "<<ctv[12]<<" "<<ctv[13]<<" "<<ctv[14]<<" "<<ctv[15]<<" "<<ctv[16]<<" ";
+      myfile <<ctv[17]<<" "<<ctv[18]<<" "<<ctv[19]<<" "<<ctv[20]<<" "<<ctv[21]<<" "<<ctv[22]<<" "<<ctv[23]<<" "<<my_follower.ctv_vrep[0]<<" ";
+      myfile <<my_follower.ctv_vrep[1]<<" "<<my_follower.ctv_vrep[2]<<" "<<my_follower.ctv_vrep[3]<<" "<<my_follower.ctv_vrep[4]<<" ";
+      myfile <<my_follower.ctv_vrep[5]<<" "<<my_follower.ctv_vrep[6]<<" "<<my_follower.ctv_vrep[7]<<" "<<my_follower.ctv_vrep[8]<<" ";
+      myfile <<my_follower.ctv_vrep[9]<<" "<<my_follower.ctv_vrep[10]<<" "<<my_follower.ctv_vrep[11]<<" "<<my_follower.ctv_vrep[12]<<" ";
+      myfile <<my_follower.ctv_vrep[13]<<" "<<my_follower.ctv_vrep[14]<<" "<<my_follower.ctv_vrep[15]<<" "<<my_follower.ctv_vrep[16]<<" ";
+      myfile <<my_follower.ctv_vrep[17]<<" "<<my_follower.ctv_vrep[18]<<" "<<my_follower.ctv_vrep[19]<<" "<<my_follower.ctv_vrep[20]<<" ";
+      myfile<<my_follower.ctv_vrep[21]<<" "<<my_follower.ctv_vrep[22]<<" "<<my_follower.ctv_vrep[23]<<" "<<smallest_dist<<" ";
+      myfile<<lin_vell_scale<<" "<<endl;
+    } 
     else cout << "Unable to open file";
     ros::spinOnce();
     loop_rate.sleep();
