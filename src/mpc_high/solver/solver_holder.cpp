@@ -58,7 +58,7 @@ double * MPC_solver::solve_mpc(double input_arr[68], double cgoal[3]) {
 	6 - 12: goal theta
 	12- 68: human spheres
 
-	output j_dot[7]
+	output j_dot[6]
 	*/
 	double x0[] = {input_arr[0], input_arr[1], input_arr[2],input_arr[3], input_arr[4], input_arr[5]};
 	double yN[] = {input_arr[6], input_arr[7], input_arr[8], input_arr[9],input_arr[10], input_arr[11]};
@@ -142,6 +142,10 @@ double * MPC_solver::solve_mpc(double input_arr[68], double cgoal[3]) {
 		for (i = 0; i < NX * (N + 1); ++i)  acadoVariables.x[ i ] = 0.0;
 		for (i = 0; i < NU * N; ++i)  acadoVariables.u[ i ] = 0.0;
 
+		for (i = 0; i < 12; ++i) {
+	    joint_commands[i] = 0.0;
+		// printf("Solver: JC %i = %f\n", i, joint_commands[i]);
+		}
 		/* Initialize the measurements/reference. */
 		for (i = 0; i < NY * N; ++i)  acadoVariables.y[ i ] = 0.0;
 	} else {

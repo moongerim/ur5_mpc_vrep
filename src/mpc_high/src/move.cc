@@ -18,7 +18,7 @@ double p_control = 1.0000;
 
 double vrep_time;
 int gripper = 0;
-int rti_num = 10;
+int rti_num = 30;
 MPC_solver myMpcSolver(rti_num);
 
 float dist_v(Eigen::Vector3f v, Eigen::Vector3f w){
@@ -176,7 +176,6 @@ int main(int argc, char **argv)
       double* solutions=myMpcSolver.solve_mpc(currentState_targetValue, cgoal);
 
       msg.data = 0;
-      // printf("flag\n");
       // PauseHigh.publish(msg);
       
       //*********************** Apply control ********************************

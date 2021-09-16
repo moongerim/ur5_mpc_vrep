@@ -26,13 +26,169 @@ smallest_distance = low(:,443);
 linvelscale = low(:,444);
 
 from_high = low(:,445:462);
+
+high_vel = from_high(:,1:12);
+pos = from_high(:,13:18)
 len = 5000;
 dt = 1000;
 s = 10;
 e = length(goal);
 % e = 500;
 %% Plot joint positions Vs Goal Positions
-fig_1 = figure('Name', 'Joint positions')
+fig_0 = figure('Name', 'HIGH controller: initial poses')
+subplot(3,2,1);
+grid on;
+hold on;
+plot(pos(s:e,1))
+title('joint_{1}')
+set(gca,'XTick',0:dt:dt*len);
+set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+
+subplot(3,2,2);
+grid on
+hold on;
+plot(pos(s:e,2));
+title('joint_{2}')
+set(gca,'XTick',0:dt:dt*len);
+set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+
+subplot(3,2,3);
+hold on;
+grid on;
+plot(pos(s:e,3));
+title('joint_{3}')
+set(gca,'XTick',0:dt:dt*len);
+set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+
+subplot(3,2,4);
+grid on;
+hold on;
+plot(pos(s:e,4));
+title('joint_{4}')
+set(gca,'XTick',0:dt:dt*len);
+set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+
+subplot(3,2,5);
+grid on;
+hold on;
+plot(pos(s:e,5));
+title('joint_{5}')
+set(gca,'XTick',0:dt:dt*len);
+set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+
+subplot(3,2,6);
+hold on;
+grid on;
+plot(pos(s:e,6));
+title('joint_{6}')
+set(gca,'XTick',0:dt:dt*len);
+set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+xlabel('time, seconds')
+
+%% Plot joint positions Vs Goal Positions
+fig_1 = figure('Name', 'High controller: vels 0 - 6')
+subplot(3,2,1);
+grid on;
+hold on;
+plot(high_vel(s:e,1))
+title('joint_{1}')
+set(gca,'XTick',0:dt:dt*len);
+set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+
+subplot(3,2,2);
+grid on
+hold on;
+plot(high_vel(s:e,2));
+title('joint_{2}')
+set(gca,'XTick',0:dt:dt*len);
+set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+
+subplot(3,2,3);
+hold on;
+grid on;
+plot(high_vel(s:e,3));
+title('joint_{3}')
+set(gca,'XTick',0:dt:dt*len);
+set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+
+subplot(3,2,4);
+grid on;
+hold on;
+plot(high_vel(s:e,4));
+title('joint_{4}')
+set(gca,'XTick',0:dt:dt*len);
+set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+
+subplot(3,2,5);
+grid on;
+hold on;
+plot(high_vel(s:e,5));
+title('joint_{5}')
+set(gca,'XTick',0:dt:dt*len);
+set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+
+subplot(3,2,6);
+hold on;
+grid on;
+plot(high_vel(s:e,6));
+title('joint_{6}')
+set(gca,'XTick',0:dt:dt*len);
+set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+xlabel('time, seconds')
+
+fig_2 = figure('Name', 'High controller: vels 7:12')
+subplot(3,2,1);
+grid on;
+hold on;
+plot(high_vel(s:e,7))
+title('joint_{1}')
+set(gca,'XTick',0:dt:dt*len);
+set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+
+subplot(3,2,2);
+grid on
+hold on;
+plot(high_vel(s:e,8));
+title('joint_{2}')
+set(gca,'XTick',0:dt:dt*len);
+set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+
+subplot(3,2,3);
+hold on;
+grid on;
+plot(high_vel(s:e,9));
+title('joint_{3}')
+set(gca,'XTick',0:dt:dt*len);
+set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+
+subplot(3,2,4);
+grid on;
+hold on;
+plot(high_vel(s:e,10));
+title('joint_{4}')
+set(gca,'XTick',0:dt:dt*len);
+set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+
+subplot(3,2,5);
+grid on;
+hold on;
+plot(high_vel(s:e,11));
+title('joint_{5}')
+set(gca,'XTick',0:dt:dt*len);
+set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+
+subplot(3,2,6);
+hold on;
+grid on;
+plot(high_vel(s:e,12));
+title('joint_{6}')
+set(gca,'XTick',0:dt:dt*len);
+set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+xlabel('time, seconds')
+
+
+%% Plot joint positions Vs Goal Positions
+fig_1 = figure('Name', 'Joint poses')
 subplot(3,2,1);
 grid on;
 hold on;
