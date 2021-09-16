@@ -1373,7 +1373,7 @@ acadoWorkspace.H[(iRow * 2250 + 2100) + (iCol * 15 + 10)] = 0.0;
 acadoWorkspace.H[(iRow * 2250 + 2100) + (iCol * 15 + 11)] = 0.0;
 acadoWorkspace.H[(iRow * 2250 + 2100) + (iCol * 15 + 12)] = 0.0;
 acadoWorkspace.H[(iRow * 2250 + 2100) + (iCol * 15 + 13)] = 0.0;
-acadoWorkspace.H[(iRow * 2250 + 2100) + (iCol * 15 + 14)] = (real_t)5.0000000000000000e+02 + (real_t)1.0000000000000001e-05;
+acadoWorkspace.H[(iRow * 2250 + 2100) + (iCol * 15 + 14)] = (real_t)1.0000000000000000e+02 + (real_t)1.0000000000000001e-05;
 }
 
 void acado_zeroBlockH11( int iRow, int iCol )
@@ -1686,7 +1686,7 @@ RDy1[10] = + (real_t)1.0000000000000000e+03*Dy1[16];
 RDy1[11] = + (real_t)1.0000000000000000e+03*Dy1[17];
 RDy1[12] = + (real_t)1.0000000000000000e+03*Dy1[18];
 RDy1[13] = + (real_t)1.0000000000000000e+03*Dy1[19];
-RDy1[14] = + (real_t)5.0000000000000000e+02*Dy1[20];
+RDy1[14] = + (real_t)1.0000000000000000e+02*Dy1[20];
 }
 
 void acado_multQDy( real_t* const Dy1, real_t* const QDy1 )
@@ -25219,7 +25219,7 @@ tmpDy[16] = + acadoWorkspace.Dy[lRun1 * 21 + 16]*(real_t)1.0000000000000000e+03;
 tmpDy[17] = + acadoWorkspace.Dy[lRun1 * 21 + 17]*(real_t)1.0000000000000000e+03;
 tmpDy[18] = + acadoWorkspace.Dy[lRun1 * 21 + 18]*(real_t)1.0000000000000000e+03;
 tmpDy[19] = + acadoWorkspace.Dy[lRun1 * 21 + 19]*(real_t)1.0000000000000000e+03;
-tmpDy[20] = + acadoWorkspace.Dy[lRun1 * 21 + 20]*(real_t)5.0000000000000000e+02;
+tmpDy[20] = + acadoWorkspace.Dy[lRun1 * 21 + 20]*(real_t)1.0000000000000000e+02;
 objVal += + acadoWorkspace.Dy[lRun1 * 21]*tmpDy[0] + acadoWorkspace.Dy[lRun1 * 21 + 1]*tmpDy[1] + acadoWorkspace.Dy[lRun1 * 21 + 2]*tmpDy[2] + acadoWorkspace.Dy[lRun1 * 21 + 3]*tmpDy[3] + acadoWorkspace.Dy[lRun1 * 21 + 4]*tmpDy[4] + acadoWorkspace.Dy[lRun1 * 21 + 5]*tmpDy[5] + acadoWorkspace.Dy[lRun1 * 21 + 6]*tmpDy[6] + acadoWorkspace.Dy[lRun1 * 21 + 7]*tmpDy[7] + acadoWorkspace.Dy[lRun1 * 21 + 8]*tmpDy[8] + acadoWorkspace.Dy[lRun1 * 21 + 9]*tmpDy[9] + acadoWorkspace.Dy[lRun1 * 21 + 10]*tmpDy[10] + acadoWorkspace.Dy[lRun1 * 21 + 11]*tmpDy[11] + acadoWorkspace.Dy[lRun1 * 21 + 12]*tmpDy[12] + acadoWorkspace.Dy[lRun1 * 21 + 13]*tmpDy[13] + acadoWorkspace.Dy[lRun1 * 21 + 14]*tmpDy[14] + acadoWorkspace.Dy[lRun1 * 21 + 15]*tmpDy[15] + acadoWorkspace.Dy[lRun1 * 21 + 16]*tmpDy[16] + acadoWorkspace.Dy[lRun1 * 21 + 17]*tmpDy[17] + acadoWorkspace.Dy[lRun1 * 21 + 18]*tmpDy[18] + acadoWorkspace.Dy[lRun1 * 21 + 19]*tmpDy[19] + acadoWorkspace.Dy[lRun1 * 21 + 20]*tmpDy[20];
 }
 
