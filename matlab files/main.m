@@ -23,17 +23,9 @@ ctv = low(:,395:418);
 ctv_vrep = low(:,419:442);
 smallest_distance = low(:,443);
 
-from_high_solutions = low(:,444:455);
-from_high_CSTV = low(:,456:523);
-from_high_c_goal = low(:,524:526);
-from_high_dist = low(:,527:638);
-from_high_min_dist = low(:,639:646);
+linvelscale = low(:,444);
 
-from_high_jp = low(:,456:461);
-from_high_goal = low(:,461:466);
-human = low(:,467:523);
-
-linvelscale = low(:,647);
+from_high = low(:,445:462);
 len = 5000;
 dt = 1000;
 s = 10;
@@ -46,7 +38,6 @@ grid on;
 hold on;
 plot(joint_positions(s:e,1))
 plot(goal_positions(s:e,1))
-plot(from_high_jp(s:e,1))
 title('joint_{1}')
 set(gca,'XTick',0:dt:dt*len);
 set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
@@ -56,7 +47,6 @@ grid on
 hold on;
 plot(joint_positions(s:e,2));
 plot(goal_positions(s:e,2));
-plot(from_high_jp(s:e,2))
 title('joint_{2}')
 set(gca,'XTick',0:dt:dt*len);
 set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
@@ -66,7 +56,6 @@ hold on;
 grid on;
 plot(joint_positions(s:e,3));
 plot(goal_positions(s:e,3));
-plot(from_high_jp(s:e,3))
 title('joint_{3}')
 set(gca,'XTick',0:dt:dt*len);
 set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
@@ -76,7 +65,6 @@ grid on;
 hold on;
 plot(joint_positions(s:e,4));
 plot(goal_positions(s:e,4));
-plot(from_high_jp(s:e,4));
 title('joint_{4}')
 set(gca,'XTick',0:dt:dt*len);
 set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
@@ -86,7 +74,6 @@ grid on;
 hold on;
 plot(joint_positions(s:e,5));
 plot(goal_positions(s:e,5));
-plot(from_high_jp(s:e,5))
 title('joint_{5}')
 set(gca,'XTick',0:dt:dt*len);
 set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
@@ -96,14 +83,13 @@ hold on;
 grid on;
 l1 = plot(joint_positions(s:e,6));
 l2 = plot(goal_positions(s:e,6));
-l4 = plot(from_high_jp(s:e,6))
 title('joint_{6}')
 set(gca,'XTick',0:dt:dt*len);
 set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
 xlabel('time, seconds')
 
 % Construct a Legend with the data from the sub-plots
-hL = legend([l1,l2, l4],["JP from low", "controller goal", "JP from high"]);
+hL = legend([l1,l2],["JP from low", "controller goal"]);
 % Programatically move the Legend
 newPosition = [0.45 0.1 0.1 0.1];
 newUnits = 'normalized';
@@ -122,20 +108,6 @@ set(gca,'XTick',0:dt:dt*len); set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
 
 legend('test point 1','test point 2','test point 3','test point 4','test point 5','test point 6','test point 7','test point 8')
 saveas(fig_2, 'dist_val.png');
-
-%% Plot distances low
-fig_3 = figure('Name','distances')
-hold on;
-for i=1:8
-    plot(from_high_min_dist(s:e,i));
-end
-% plot(smallest_distance(s:e))
-set(gca,'XTick',0:dt:dt*len); set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
-
-legend('test point 1','test point 2','test point 3','test point 4','test point 5','test point 6','test point 7','test point 8')
-saveas(fig_3, 'dist_val_h.png');
-
-
 
 %% Plot joint velocities Vs MPC solutions
 fig_4 = figure('Name','velocities')

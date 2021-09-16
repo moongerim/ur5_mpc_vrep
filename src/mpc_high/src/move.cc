@@ -91,8 +91,8 @@ int main(int argc, char **argv)
   ROS_INFO("Node Started");
   //--------------------------------
   GoalFollower my_follower;
-  ros::Publisher chatter_pub = n.advertise<std_msgs::Float64MultiArray>("/my_ur5/mpc_high_positions", 1);
-  ros::Publisher PauseHigh = n.advertise<std_msgs::Int32>("pauseHigh", 1);
+  ros::Publisher chatter_pub = n.advertise<std_msgs::Float64MultiArray>("/HighController/mpc_high_positions", 1);
+  ros::Publisher PauseHigh = n.advertise<std_msgs::Int32>("/HighController/pause", 1);
   while (PauseHigh.getNumSubscribers() < 1);
   std_msgs::Int32 msg;
   msg.data = 0;
@@ -107,9 +107,9 @@ int main(int argc, char **argv)
 
   double static_goal[6] = {read_goal[1][0], read_goal[1][1], read_goal[1][2], read_goal[1][3], read_goal[1][4], read_goal[1][5]};
 
-  ros::Subscriber human_status = n.subscribe("/vrep/my_ur5/mpc_high_spheres", 1, &GoalFollower::change_obstacles_msg, &my_follower);
-  ros::Subscriber joint_status = n.subscribe("/joint_states_high", 1, &GoalFollower::change_states_msg, &my_follower);
-  ros::Subscriber vrep_time_listener = n.subscribe("/clock", 1, vrep_time_msg);
+  ros::Subscriber human_status = n.subscribe("/Obstacle/mpc_high_spheres", 1, &GoalFollower::change_obstacles_msg, &my_follower);
+  ros::Subscriber joint_status = n.subscribe("/CoppeliaSim/joint_states_high", 1, &GoalFollower::change_states_msg, &my_follower);
+  ros::Subscriber vrep_time_listener = n.subscribe("/CoppeliaSim/clock", 1, vrep_time_msg);
   
   std_msgs::Float64MultiArray joint_vel_values;
 
@@ -125,7 +125,7 @@ int main(int argc, char **argv)
     double loop_start_time = 0;
 	  
 	  ros::Rate goto_loop(20);
-	  ros::Duration(0.50).sleep();
+	  // ros::Duration(0.50).sleep();
 	  while (vrep_time < start_motion_time + stop_human_time - (loop_duration*2)){
       printf("vrep time=%f, start_motion_time = %f, stop_human_time = %f\n", vrep_time, start_motion_time, stop_human_time);
       joint_vel_values.data.clear();
@@ -213,6 +213,7 @@ int main(int argc, char **argv)
       joint_vel_values.data.clear();
       for (int i = 0; i < 12; i++) joint_vel_values.data.push_back(solutions[i]);
       for (int i = 0; i < 6; i++)  joint_vel_values.data.push_back(currentState_targetValue[i]);
+
       chatter_pub.publish(joint_vel_values);
       ros::spinOnce();
       loop_rate.sleep();

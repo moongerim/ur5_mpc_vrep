@@ -156,13 +156,11 @@ class GoalFollower
       }
     }
 
-    void change_human_speed_msg(const std_msgs::Float64MultiArray velocity_data) 
-    { 
-      for (int i=0; i<56; i++) velocity_sphere[i] = velocity_data.data[i];
-    }
-
     void change_goal_msg(const std_msgs::Float64MultiArray joint_pose_values) 
     { 
+      for (int i=0; i<18; i++){
+        from_high[i]= joint_pose_values.data[i];
+      }
       for (int j=0; j<5; j++) {
         for (int i=0; i<6; i++){
           goal_queue[j*6+i] = joint_pose_values.data[i]*(0.050*(j+5)) + joint_pose_values.data[i+12]; 
@@ -225,16 +223,16 @@ class GoalFollower
 
 int main(int argc, char **argv)
 {
-  myfile.open("data_low.csv", ios::out);
+  myfile.open("/home/robot/workspaces/ur5_mpc_vrep/data_low.csv", ios::out);
   ros::init(argc, argv, "joint_controller_low");
 
   ros::NodeHandle n;
   ROS_INFO("Node Started");
 
   GoalFollower my_follower;
-  my_follower.chatter_pub = n.advertise<std_msgs::Float64MultiArray>("/MPC_solutions", 1);
+  my_follower.chatter_pub = n.advertise<std_msgs::Float64MultiArray>("/LowController/MPC_solutions", 1);
 
-  ros::Publisher PauseLow = n.advertise<std_msgs::Int32>("pauseLow", 1);
+  ros::Publisher PauseLow = n.advertise<std_msgs::Int32>("/LowController/pause", 1);
   while (PauseLow.getNumSubscribers() < 1);
   std_msgs::Int32 msg;
   msg.data = 0;
@@ -243,16 +241,15 @@ int main(int argc, char **argv)
   ROS_INFO("Goal default to: %.3f, %.3f, %.3f, %.3f, %.3f, %.3f", 
 	my_follower.goal[0], my_follower.goal[1], my_follower.goal[2],my_follower.goal[3], my_follower.goal[4], my_follower.goal[5]);
 
-  ros::Subscriber vrep_test_points = n.subscribe("/testPointsPoses", 1, &GoalFollower::test_points_poses, &my_follower);
-  ros::Subscriber vrep_test_points_vel = n.subscribe("/testPointsVel", 1, &GoalFollower::test_points_vel, &my_follower);
-  ros::Subscriber vrep_distances = n.subscribe("/distance", 1, &GoalFollower::distances, &my_follower);
-  ros::Subscriber vrep_human = n.subscribe("/humanRealPositions", 1, &GoalFollower::vrep_h, &my_follower);
-  ros::Subscriber real_joint_goal = n.subscribe("/my_ur5/q_goal", 1, &GoalFollower::change_real_goal, &my_follower);
+  ros::Subscriber vrep_test_points = n.subscribe("/CoppeliaSim/testPointsPoses", 1, &GoalFollower::test_points_poses, &my_follower);
+  ros::Subscriber vrep_test_points_vel = n.subscribe("/CoppeliaSim/testPointsVel", 1, &GoalFollower::test_points_vel, &my_follower);
+  ros::Subscriber vrep_distances = n.subscribe("/CoppeliaSim/distance", 1, &GoalFollower::distances, &my_follower);
+  ros::Subscriber vrep_human = n.subscribe("/CoppeliaSim/humanRealPositions", 1, &GoalFollower::vrep_h, &my_follower);
+  ros::Subscriber real_joint_goal = n.subscribe("/HighController/q_goal", 1, &GoalFollower::change_real_goal, &my_follower);
 
-  ros::Subscriber joint_status = n.subscribe("/joint_states_low", 1, &GoalFollower::change_states_msg, &my_follower);
-  ros::Subscriber joint_goal = n.subscribe("/my_ur5/mpc_high_positions", 1, &GoalFollower::change_goal_msg, &my_follower);
-  ros::Subscriber human_status = n.subscribe("/vrep/my_ur5/mpc_low_spheres", 1, &GoalFollower::change_obstacles_msg, &my_follower);
-  ros::Subscriber human_speed = n.subscribe("/vrep/spheres_speed", 1, &GoalFollower::change_human_speed_msg, &my_follower);
+  ros::Subscriber joint_status = n.subscribe("/CoppeliaSim/joint_states_low", 1, &GoalFollower::change_states_msg, &my_follower);
+  ros::Subscriber joint_goal = n.subscribe("/HighController/mpc_high_positions", 1, &GoalFollower::change_goal_msg, &my_follower);
+  ros::Subscriber human_status = n.subscribe("/Obstacle/mpc_low_spheres", 1, &GoalFollower::change_obstacles_msg, &my_follower);
 
   double smallest_dist;
   double local_val;
@@ -331,7 +328,7 @@ int main(int argc, char **argv)
       for (int i = 0; i < 6; ++i)  currentState_targetValue[i] = my_follower.joint_position[i];
       for (int i = 0; i < 6; ++i)  currentState_targetValue[i+6] = my_follower.goal[i];
       for (int i = 0; i < 56; ++i) currentState_targetValue[i+12] = my_follower.human_sphere[i];
-      // for (int i = 0; i < 68; ++i) printf("CS_TV %i=%f\n", i, currentState_targetValue[i]);
+      // for (int i = 12; i < 68; ++i) printf("CS_TV %i=%f\n", i, currentState_targetValue[i]);
       // for (int i = 0; i < 60; ++i) printf("tracking_goal %i=%f\n", i, tracking_goal[i]);
       msg.data = 1;
       // PauseLow.publish(msg);
@@ -499,7 +496,11 @@ int main(int argc, char **argv)
       myfile <<my_follower.ctv_vrep[13]<<" "<<my_follower.ctv_vrep[14]<<" "<<my_follower.ctv_vrep[15]<<" "<<my_follower.ctv_vrep[16]<<" ";
       myfile <<my_follower.ctv_vrep[17]<<" "<<my_follower.ctv_vrep[18]<<" "<<my_follower.ctv_vrep[19]<<" "<<my_follower.ctv_vrep[20]<<" ";
       myfile<<my_follower.ctv_vrep[21]<<" "<<my_follower.ctv_vrep[22]<<" "<<my_follower.ctv_vrep[23]<<" "<<smallest_dist<<" ";
-      myfile<<lin_vell_scale<<" "<<endl;
+      myfile<<lin_vell_scale<<" "<<my_follower.from_high[0]<<" "<<my_follower.from_high[1]<<" "<<my_follower.from_high[2]<<" ";
+      myfile<<my_follower.from_high[3]<<" "<<my_follower.from_high[4]<<" "<<my_follower.from_high[5]<<" "<<my_follower.from_high[6]<<" ";
+      myfile<<my_follower.from_high[7]<<" "<<my_follower.from_high[8]<<" "<<my_follower.from_high[9]<<" "<<my_follower.from_high[10]<<" ";
+      myfile<<my_follower.from_high[11]<<" "<<my_follower.from_high[12]<<" "<<my_follower.from_high[13]<<" "<<my_follower.from_high[14]<<" ";
+      myfile<<my_follower.from_high[15]<<" "<<my_follower.from_high[16]<<" "<<my_follower.from_high[17]<<" "<<endl;
     } 
     else cout << "Unable to open file";
     ros::spinOnce();

@@ -7,13 +7,13 @@ import os
 import csv
 from std_msgs.msg import Float64MultiArray
 import math
-# pos = '/home/robot/workspaces/ur5_mpc_vrep/dataframeB.csv'
-pos = '/home/robot/workspaces/ur5_mpc_vrep/Participant_909_Setup_A_Seq_1_Trial_1.xsens.bvh.csv'
+pos = '/home/robot/workspaces/ur5_mpc_vrep/dataframeB.csv'
+# pos = '/home/robot/workspaces/ur5_mpc_vrep/Participant_909_Setup_A_Seq_1_Trial_1.xsens.bvh.csv'
 
 pos = pd.read_csv(pos, quoting=csv.QUOTE_NONNUMERIC)
 pos = pos.to_numpy()
 
-human_spheres = rospy.Publisher('/human_spheres', Float64MultiArray, queue_size=1)
+human_spheres = rospy.Publisher('/Obstacle/human_spheres', Float64MultiArray, queue_size=1)
 
 sphere_radiuses = [0.5510,0.6010,0.5010,0.5010,0.5010,0.5010,0.5010,0.5010,0.4510,0.4510,0.4810,0.4810,0.5510,0.6010]
 start_time = 0
@@ -25,17 +25,18 @@ def main():
     i=0
     while not rospy.is_shutdown():
         point_array = [0]*42
+        
         for a in range(14):
-            # point_array[3*a] = (pos[i][3*a])/1000
-            # point_array[3*a+1] = (pos[i][3*a+1])/1000
-            # point_array[3*a+2] = (pos[i][3*a+2])/1000
-            point_array[3*a] = (pos[i][3*a])+2
-            point_array[3*a+1] = (pos[i][3*a+1])+2
-            point_array[3*a+2] = (pos[i][3*a+2])
+            point_array[3*a] = (pos[i][3*a])/1000+10
+            point_array[3*a+1] = (pos[i][3*a+1])/1000+10
+            point_array[3*a+2] = (pos[i][3*a+2])/1000
+            # point_array[3*a] = (pos[i][3*a])+2
+            # point_array[3*a+1] = (pos[i][3*a+1])+2
+            # point_array[3*a+2] = (pos[i][3*a+2])
         obstacle_data = Float64MultiArray()
         obstacle_data.data = point_array
         human_spheres.publish(obstacle_data)
-        print(point_array)
+        # print(point_array)
         time.sleep(0.01)
         i+=1
     rospy.spin()
