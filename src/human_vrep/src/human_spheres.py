@@ -27,8 +27,8 @@ def main():
         point_array = [0]*42
         
         for a in range(14):
-            point_array[3*a] = (pos[i][3*a])/1000+10
-            point_array[3*a+1] = (pos[i][3*a+1])/1000+10
+            point_array[3*a] = (pos[i][3*a])/1000+0.2
+            point_array[3*a+1] = (pos[i][3*a+1])/1000+0.2
             point_array[3*a+2] = (pos[i][3*a+2])/1000
             # point_array[3*a] = (pos[i][3*a])+2
             # point_array[3*a+1] = (pos[i][3*a+1])+2

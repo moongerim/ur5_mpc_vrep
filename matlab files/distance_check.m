@@ -50,7 +50,8 @@ f = formula_dist(1)
 v = vrep_dist(1)
 % 
 diff = formula_dist - vrep_dist;
-mean_diff = mean(diff)
+mean_diff = mean(diff);
+
 %% Plot cposes
 len = 100;
 fig_1 = figure('Name', '1-4')

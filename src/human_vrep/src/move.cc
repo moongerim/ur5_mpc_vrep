@@ -35,6 +35,7 @@ double velocity_sphere[56]= {0.0,   0.0,   0.0,   0.0,
 
 float point_array_temp[56];
 float point_array[56];
+
 float sphere_radi[14]={0.5510,0.6010,0.5010,0.5010,0.5010,0.5010,0.5010,0.5010,0.4510,0.4510,0.4810,0.4810,0.5510,0.6010};
 
 void chatterCallback(const std_msgs::Float64MultiArray msg)
@@ -43,7 +44,8 @@ void chatterCallback(const std_msgs::Float64MultiArray msg)
     point_array_temp[i*4] = msg.data[i*3];
     point_array_temp[i*4+1] = msg.data[i*3+1];
     point_array_temp[i*4+2] = msg.data[i*3+2];
-    point_array_temp[i*4+3] = sphere_radi[i];
+    //vrep diff:
+    point_array_temp[i*4+3] = sphere_radi[i]-0.43;
   }
 }
 
