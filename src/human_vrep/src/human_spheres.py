@@ -15,20 +15,19 @@ pos = pos.to_numpy()
 
 human_spheres = rospy.Publisher('/Obstacle/human_spheres', Float64MultiArray, queue_size=1)
 
-sphere_radiuses = [0.5510,0.6010,0.5010,0.5010,0.5010,0.5010,0.5010,0.5010,0.4510,0.4510,0.4810,0.4810,0.5510,0.6010]
 start_time = 0
       
 
 def main():
-    global pos, sphere_radiuses
+    global pos
     rospy.init_node('human_control', anonymous=True)
     i=0
     while not rospy.is_shutdown():
         point_array = [0]*42
         
         for a in range(14):
-            point_array[3*a] = (pos[i][3*a])/1000+0.2
-            point_array[3*a+1] = (pos[i][3*a+1])/1000+0.2
+            point_array[3*a] = (pos[i][3*a])/1000+1.5
+            point_array[3*a+1] = (pos[i][3*a+1])/1000+1.5
             point_array[3*a+2] = (pos[i][3*a+2])/1000
             # point_array[3*a] = (pos[i][3*a])+2
             # point_array[3*a+1] = (pos[i][3*a+1])+2

@@ -31,19 +31,26 @@ double d_6 =  0.08200;           // Offset of link 6
 double a_2 = -0.42500;           // Length of link 2
 double a_3 = -0.39243;			     // Length of link 3
 
-// cartesian positions of the 8 test points:
+// cartesian positions of the 10 test points:
 Eigen::MatrixXf get_cpose(float theta_1, float theta_2, float theta_3, float theta_4, float theta_5, float theta_6){
-  Eigen::MatrixXf mat(3,9);
-  mat <<0, 0.11*sin(theta_1) - 0.425*cos(theta_1)*cos(theta_2), -0.425*cos(theta_1)*cos(theta_2)+(-(cos(theta_1)*(1569.0*cos(theta_2 + theta_3) + 1700.0*cos(theta_2)))/4000-(-0.425*cos(theta_1)*cos(theta_2)))/4,  -0.425*cos(theta_1)*cos(theta_2)+2*(-(cos(theta_1)*(1569.0*cos(theta_2 + theta_3) + 1700.0*cos(theta_2)))/4000-(-0.425*cos(theta_1)*cos(theta_2)))/4,  -0.425*cos(theta_1)*cos(theta_2)+3*(-(cos(theta_1)*(1569.0*cos(theta_2 + theta_3) + 1700.0*cos(theta_2)))/4000-(-0.425*cos(theta_1)*cos(theta_2)))/4,             -(cos(theta_1)*(1569.0*cos(theta_2 + theta_3) + 1700.0*cos(theta_2)))/4000, 0.10915*sin(theta_1) - 0.425*cos(theta_1)*cos(theta_2) + 0.39225*cos(theta_1)*sin(theta_2)*sin(theta_3) - 0.39225*cos(theta_1)*cos(theta_2)*cos(theta_3), 0.10915*sin(theta_1) - 0.425*cos(theta_1)*cos(theta_2) + 0.09465*cos(theta_4)*(cos(theta_1)*cos(theta_2)*sin(theta_3) + cos(theta_1)*cos(theta_3)*sin(theta_2)) - 0.09465*sin(theta_4)*(cos(theta_1)*sin(theta_2)*sin(theta_3) - 1.0*cos(theta_1)*cos(theta_2)*cos(theta_3)) + 0.39225*cos(theta_1)*sin(theta_2)*sin(theta_3) - 0.39225*cos(theta_1)*cos(theta_2)*cos(theta_3), 0.10915*sin(theta_1) - 0.425*cos(theta_1)*cos(theta_2) + 0.0823*cos(theta_5)*sin(theta_1) + 0.39225*cos(theta_1)*sin(theta_2)*sin(theta_3) - 0.0823*cos(theta_2 + theta_3 + theta_4)*cos(theta_1)*sin(theta_5) + 0.09465*cos(theta_2 + theta_3)*cos(theta_1)*sin(theta_4) + 0.09465*sin(theta_2 + theta_3)*cos(theta_1)*cos(theta_4) - 0.39225*cos(theta_1)*cos(theta_2)*cos(theta_3),
-        0,  - 0.11*cos(theta_1) - 0.425*cos(theta_2)*sin(theta_1),  -0.425*cos(theta_2)*sin(theta_1)+(-(sin(theta_1)*(1569.0*cos(theta_2 + theta_3) + 1700.0*cos(theta_2)))/4000-(-0.425*cos(theta_2)*sin(theta_1)))/4, -0.425*cos(theta_2)*sin(theta_1)+2*(-(sin(theta_1)*(1569.0*cos(theta_2 + theta_3) + 1700.0*cos(theta_2)))/4000-(-0.425*cos(theta_2)*sin(theta_1)))/4, -0.425*cos(theta_2)*sin(theta_1)+3*(-(sin(theta_1)*(1569.0*cos(theta_2 + theta_3) + 1700.0*cos(theta_2)))/4000-(-0.425*cos(theta_2)*sin(theta_1)))/4,            -(sin(theta_1)*(1569.0*cos(theta_2 + theta_3) + 1700.0*cos(theta_2)))/4000, 0.39225*sin(theta_1)*sin(theta_2)*sin(theta_3) - 0.425*cos(theta_2)*sin(theta_1) - 0.10915*cos(theta_1) - 0.39225*cos(theta_2)*cos(theta_3)*sin(theta_1), 0.09465*cos(theta_4)*(cos(theta_2)*sin(theta_1)*sin(theta_3) + cos(theta_3)*sin(theta_1)*sin(theta_2)) - 0.425*cos(theta_2)*sin(theta_1) - 0.10915*cos(theta_1) - 0.09465*sin(theta_4)*(sin(theta_1)*sin(theta_2)*sin(theta_3) - 1.0*cos(theta_2)*cos(theta_3)*sin(theta_1)) + 0.39225*sin(theta_1)*sin(theta_2)*sin(theta_3) - 0.39225*cos(theta_2)*cos(theta_3)*sin(theta_1), 0.39225*sin(theta_1)*sin(theta_2)*sin(theta_3) - 0.0823*cos(theta_1)*cos(theta_5) - 0.425*cos(theta_2)*sin(theta_1) - 0.10915*cos(theta_1) - 0.0823*cos(theta_2 + theta_3 + theta_4)*sin(theta_1)*sin(theta_5) + 0.09465*cos(theta_2 + theta_3)*sin(theta_1)*sin(theta_4) + 0.09465*sin(theta_2 + theta_3)*cos(theta_4)*sin(theta_1) - 0.39225*cos(theta_2)*cos(theta_3)*sin(theta_1),
-        0, 0.08945 - 0.425*sin(theta_2), 0.08945 - 0.425*sin(theta_2)+(0.08945 - 0.425*sin(theta_2) - 0.39225*sin(theta_2 + theta_3)-(0.08945 - 0.425*sin(theta_2)))/4, 0.08945 - 0.425*sin(theta_2)+2*(0.08945 - 0.425*sin(theta_2) - 0.39225*sin(theta_2 + theta_3)-(0.08945 - 0.425*sin(theta_2)))/4, 0.08945 - 0.425*sin(theta_2)+3*(0.08945 - 0.425*sin(theta_2) - 0.39225*sin(theta_2 + theta_3)-(0.08945 - 0.425*sin(theta_2)))/4,0.08945 - 0.425*sin(theta_2) - 0.39225*sin(theta_2 + theta_3),                                                                0.08945 - 0.425*sin(theta_2) - 0.39225*sin(theta_2 + theta_3),                                                                                                                                                                                                                                           0.08945 - 0.39225*sin(theta_2 + theta_3) - 0.425*sin(theta_2) - 0.09465*cos(theta_2 + theta_3 + theta_4),                                                                                        0.09465*sin(theta_2 + theta_3)*sin(theta_4) - 0.425*sin(theta_2) - 0.39225*sin(theta_2 + theta_3) - sin(theta_5)*(0.0823*cos(theta_2 + theta_3)*sin(theta_4) + 0.0823*sin(theta_2 + theta_3)*cos(theta_4)) - 0.09465*cos(theta_2 + theta_3)*cos(theta_4) + 0.08945;
+  Eigen::MatrixXf mat(3,11);
+  mat <<0, 1*(0.2*sin(theta_1)-0.425*cos(theta_1)*cos(theta_2))/3, 2*(0.2*sin(theta_1) - 0.425*cos(theta_1)*cos(theta_2))/3, 0.11*sin(theta_1) - 0.425*cos(theta_1)*cos(theta_2), -0.425*cos(theta_1)*cos(theta_2)+(-(cos(theta_1)*(1569.0*cos(theta_2 + theta_3) + 1700.0*cos(theta_2)))/4000-(-0.425*cos(theta_1)*cos(theta_2)))/4,  -0.425*cos(theta_1)*cos(theta_2)+2*(-(cos(theta_1)*(1569.0*cos(theta_2 + theta_3) + 1700.0*cos(theta_2)))/4000-(-0.425*cos(theta_1)*cos(theta_2)))/4,  -0.425*cos(theta_1)*cos(theta_2)+3*(-(cos(theta_1)*(1569.0*cos(theta_2 + theta_3) + 1700.0*cos(theta_2)))/4000-(-0.425*cos(theta_1)*cos(theta_2)))/4,             -(cos(theta_1)*(1569.0*cos(theta_2 + theta_3) + 1700.0*cos(theta_2)))/4000, 0.10915*sin(theta_1) - 0.425*cos(theta_1)*cos(theta_2) + 0.39225*cos(theta_1)*sin(theta_2)*sin(theta_3) - 0.39225*cos(theta_1)*cos(theta_2)*cos(theta_3), 0.10915*sin(theta_1) - 0.425*cos(theta_1)*cos(theta_2) + 0.09465*cos(theta_4)*(cos(theta_1)*cos(theta_2)*sin(theta_3) + cos(theta_1)*cos(theta_3)*sin(theta_2)) - 0.09465*sin(theta_4)*(cos(theta_1)*sin(theta_2)*sin(theta_3) - 1.0*cos(theta_1)*cos(theta_2)*cos(theta_3)) + 0.39225*cos(theta_1)*sin(theta_2)*sin(theta_3) - 0.39225*cos(theta_1)*cos(theta_2)*cos(theta_3), 0.10915*sin(theta_1) - 0.425*cos(theta_1)*cos(theta_2) + 0.0823*cos(theta_5)*sin(theta_1) + 0.39225*cos(theta_1)*sin(theta_2)*sin(theta_3) - 0.0823*cos(theta_2 + theta_3 + theta_4)*cos(theta_1)*sin(theta_5) + 0.09465*cos(theta_2 + theta_3)*cos(theta_1)*sin(theta_4) + 0.09465*sin(theta_2 + theta_3)*cos(theta_1)*cos(theta_4) - 0.39225*cos(theta_1)*cos(theta_2)*cos(theta_3),
+        0, 1*(-0.4*cos(theta_1)-0.425*cos(theta_2)*sin(theta_1))/3, 2*(-0.2*cos(theta_1) - 0.425*cos(theta_2)*sin(theta_1))/3, -0.11*cos(theta_1) - 0.425*cos(theta_2)*sin(theta_1),  -0.425*cos(theta_2)*sin(theta_1)+(-(sin(theta_1)*(1569.0*cos(theta_2 + theta_3) + 1700.0*cos(theta_2)))/4000-(-0.425*cos(theta_2)*sin(theta_1)))/4, -0.425*cos(theta_2)*sin(theta_1)+2*(-(sin(theta_1)*(1569.0*cos(theta_2 + theta_3) + 1700.0*cos(theta_2)))/4000-(-0.425*cos(theta_2)*sin(theta_1)))/4, -0.425*cos(theta_2)*sin(theta_1)+3*(-(sin(theta_1)*(1569.0*cos(theta_2 + theta_3) + 1700.0*cos(theta_2)))/4000-(-0.425*cos(theta_2)*sin(theta_1)))/4,            -(sin(theta_1)*(1569.0*cos(theta_2 + theta_3) + 1700.0*cos(theta_2)))/4000, 0.39225*sin(theta_1)*sin(theta_2)*sin(theta_3) - 0.425*cos(theta_2)*sin(theta_1) - 0.10915*cos(theta_1) - 0.39225*cos(theta_2)*cos(theta_3)*sin(theta_1), 0.09465*cos(theta_4)*(cos(theta_2)*sin(theta_1)*sin(theta_3) + cos(theta_3)*sin(theta_1)*sin(theta_2)) - 0.425*cos(theta_2)*sin(theta_1) - 0.10915*cos(theta_1) - 0.09465*sin(theta_4)*(sin(theta_1)*sin(theta_2)*sin(theta_3) - 1.0*cos(theta_2)*cos(theta_3)*sin(theta_1)) + 0.39225*sin(theta_1)*sin(theta_2)*sin(theta_3) - 0.39225*cos(theta_2)*cos(theta_3)*sin(theta_1), 0.39225*sin(theta_1)*sin(theta_2)*sin(theta_3) - 0.0823*cos(theta_1)*cos(theta_5) - 0.425*cos(theta_2)*sin(theta_1) - 0.10915*cos(theta_1) - 0.0823*cos(theta_2 + theta_3 + theta_4)*sin(theta_1)*sin(theta_5) + 0.09465*cos(theta_2 + theta_3)*sin(theta_1)*sin(theta_4) + 0.09465*sin(theta_2 + theta_3)*cos(theta_4)*sin(theta_1) - 0.39225*cos(theta_2)*cos(theta_3)*sin(theta_1),
+        0, 0.08945+(0.08945-0.425*sin(theta_2)-0.08945)/3, 0.08945+2*(0.08945-0.425*sin(theta_2)-0.08945)/3, 0.08945 - 0.425*sin(theta_2), 0.08945 - 0.425*sin(theta_2)+(0.08945 - 0.425*sin(theta_2) - 0.39225*sin(theta_2 + theta_3)-(0.08945 - 0.425*sin(theta_2)))/4, 0.08945 - 0.425*sin(theta_2)+2*(0.08945 - 0.425*sin(theta_2) - 0.39225*sin(theta_2 + theta_3)-(0.08945 - 0.425*sin(theta_2)))/4, 0.08945 - 0.425*sin(theta_2)+3*(0.08945 - 0.425*sin(theta_2) - 0.39225*sin(theta_2 + theta_3)-(0.08945 - 0.425*sin(theta_2)))/4,0.08945 - 0.425*sin(theta_2) - 0.39225*sin(theta_2 + theta_3),                                                                0.08945 - 0.425*sin(theta_2) - 0.39225*sin(theta_2 + theta_3),                                                                                                                                                                                                                                           0.08945 - 0.39225*sin(theta_2 + theta_3) - 0.425*sin(theta_2) - 0.09465*cos(theta_2 + theta_3 + theta_4),                                                                                        0.09465*sin(theta_2 + theta_3)*sin(theta_4) - 0.425*sin(theta_2) - 0.39225*sin(theta_2 + theta_3) - sin(theta_5)*(0.0823*cos(theta_2 + theta_3)*sin(theta_4) + 0.0823*sin(theta_2 + theta_3)*cos(theta_4)) - 0.09465*cos(theta_2 + theta_3)*cos(theta_4) + 0.08945;
  return mat;
 }
 
+
 Eigen::MatrixXf get_velocity(float theta_1, float theta_2, float theta_3, float theta_4, float theta_5, float theta_6,
                              float u_1, float u_2, float u_3, float u_4, float u_5, float u_6){
-	Eigen::MatrixXf mat(24,1);
-  mat <<0.425*u_1*cos(theta_2)*sin(theta_1) + 0.425*u_2*cos(theta_1)*sin(theta_2),
+	Eigen::MatrixXf mat(30,1);
+  mat <<(0.425*u_1*cos(theta_2)*sin(theta_1) + 0.425*u_2*cos(theta_1)*sin(theta_2))/3,
+        (0.425*u_2*sin(theta_1)*sin(theta_2) - 0.425*u_1*cos(theta_1)*cos(theta_2))/3,
+        (-0.425*u_2*cos(theta_2))/3,
+        2*(0.425*u_1*cos(theta_2)*sin(theta_1) + 0.425*u_2*cos(theta_1)*sin(theta_2))/3,
+        2*(0.425*u_2*sin(theta_1)*sin(theta_2) - 0.425*u_1*cos(theta_1)*cos(theta_2))/3,
+        2*(-0.425*u_2*cos(theta_2))/3,
+        0.425*u_1*cos(theta_2)*sin(theta_1) + 0.425*u_2*cos(theta_1)*sin(theta_2),
         0.425*u_2*sin(theta_1)*sin(theta_2) - 0.425*u_1*cos(theta_1)*cos(theta_2),
         -0.425*u_2*cos(theta_2),
         0.425*u_1*cos(theta_2)*sin(theta_1) + 0.425*u_2*cos(theta_1)*sin(theta_2)+1/4*(u_2*(0.425*cos(theta_1)*sin(theta_2) + 0.39225*cos(theta_1)*cos(theta_2)*sin(theta_3) + 0.39225*cos(theta_1)*cos(theta_3)*sin(theta_2)) + u_1*(0.425*cos(theta_2)*sin(theta_1) - 0.39225*sin(theta_1)*sin(theta_2)*sin(theta_3) + 0.39225*cos(theta_2)*cos(theta_3)*sin(theta_1)) + u_3*(0.39225*cos(theta_1)*cos(theta_2)*sin(theta_3) + 0.39225*cos(theta_1)*cos(theta_3)*sin(theta_2))-(0.425*u_1*cos(theta_2)*sin(theta_1) + 0.425*u_2*cos(theta_1)*sin(theta_2))),
@@ -78,7 +85,7 @@ class GoalFollower
 
     // Data Members 
     ros::Publisher chatter_pub;
-    double robot_spheres[8] = {0.29, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15};
+    double robot_spheres[10] = {0.17, 0.17, 0.29, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15};
 
     double human_sphere[56]= {124.45,   85.11,   1749.08,   0.5510,
                               199.27,   83.75,   1461.56,   0.6010,
@@ -137,11 +144,24 @@ class GoalFollower
     double joint_position[6] = {0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000};
     
     // cartesian poses of test points from vrep:
-    double ctp_vrep[24] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    double ctp_vrep[30] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     // linear velocities of test points from vrep:
-    double ctv_vrep[24] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    double ctv_vrep[30] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     // human sphere_test points distances:
-    double dist_vrep[112] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    double dist_vrep[140] = {0,0,0,0,0,0,0,0,0,0,
+                            0,0,0,0,0,0,0,0,0,0,
+                            0,0,0,0,0,0,0,0,0,0,
+                            0,0,0,0,0,0,0,0,0,0,
+                            0,0,0,0,0,0,0,0,0,0,
+                            0,0,0,0,0,0,0,0,0,0,
+                            0,0,0,0,0,0,0,0,0,0,
+                            0,0,0,0,0,0,0,0,0,0,
+                            0,0,0,0,0,0,0,0,0,0,
+                            0,0,0,0,0,0,0,0,0,0,
+                            0,0,0,0,0,0,0,0,0,0,
+                            0,0,0,0,0,0,0,0,0,0,
+                            0,0,0,0,0,0,0,0,0,0,
+                            0,0,0,0,0,0,0,0,0,0};
     double human_vrep[42] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     double real_q_goal[6] = {0,0,0,0,0,0};
     double joint_speed[6] = {0.0000, 0.0000, 0.0000, 0.0000, 0.0000, 0.0000};
@@ -254,26 +274,26 @@ int main(int argc, char **argv)
   double smallest_dist;
   double local_val;
   double vrep_val;
-  double dist_val[112] = {0,0,0,0,0,0,0,0,
-                          0,0,0,0,0,0,0,0,
-                          0,0,0,0,0,0,0,0,
-                          0,0,0,0,0,0,0,0,
-                          0,0,0,0,0,0,0,0,
-                          0,0,0,0,0,0,0,0,
-                          0,0,0,0,0,0,0,0,
-                          0,0,0,0,0,0,0,0,
-                          0,0,0,0,0,0,0,0,
-                          0,0,0,0,0,0,0,0,
-                          0,0,0,0,0,0,0,0,
-                          0,0,0,0,0,0,0,0,
-                          0,0,0,0,0,0,0,0,
-                          0,0,0,0,0,0,0,0};
-  // cposes of 8 test points:
-  double ctp[24] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-  // linear vels of 8 test points:
-  double ctv[24] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-  // min dist has 8 values for 8 test points:
-  double min_dist[] = {10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000};
+  double dist_val[140] = {0,0,0,0,0,0,0,0,0,0,
+                          0,0,0,0,0,0,0,0,0,0,
+                          0,0,0,0,0,0,0,0,0,0,
+                          0,0,0,0,0,0,0,0,0,0,
+                          0,0,0,0,0,0,0,0,0,0,
+                          0,0,0,0,0,0,0,0,0,0,
+                          0,0,0,0,0,0,0,0,0,0,
+                          0,0,0,0,0,0,0,0,0,0,
+                          0,0,0,0,0,0,0,0,0,0,
+                          0,0,0,0,0,0,0,0,0,0,
+                          0,0,0,0,0,0,0,0,0,0,
+                          0,0,0,0,0,0,0,0,0,0,
+                          0,0,0,0,0,0,0,0,0,0,
+                          0,0,0,0,0,0,0,0,0,0};
+  // cposes of 10 test points:
+  double ctp[30] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+  // linear vels of 10 test points:
+  double ctv[30] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+  // min dist has 10 values for 10 test points:
+  double min_dist[] = {10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000, 10000};
   ros::Rate loop_rate(20);
 
   while (ros::ok())
@@ -295,15 +315,16 @@ int main(int argc, char **argv)
 	  smallest_dist = 10000;
 
     // for 8 points on UR5:
-    min_dist[0] = 10000; min_dist[1] = 10000; min_dist[2] = 10000; min_dist[3] = 10000;
-    min_dist[4] = 10000; min_dist[5] = 10000; min_dist[6] = 10000; min_dist[7] = 10000;
-    double spheres_dist[] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+    min_dist[0] = 10000; min_dist[1] = 10000; min_dist[2] = 10000; min_dist[3] = 10000; min_dist[4] = 10000; 
+    min_dist[5] = 10000; min_dist[6] = 10000; min_dist[7] = 10000; min_dist[8] = 10000; min_dist[9] = 10000;
+
+    double spheres_dist[] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
     Eigen::MatrixXf mat2 = get_cpose(my_follower.joint_position[0], my_follower.joint_position[1],
                                      my_follower.joint_position[2], my_follower.joint_position[3],
                                      my_follower.joint_position[4], my_follower.joint_position[5]);
     int iter = 0;
 
-    for (int j = 0; j < 8; j++) {
+    for (int j = 0; j < 10; j++) {
       Eigen::Vector3f w;
       w = mat2.col(j+1).transpose();
       ctp[j*3+0] = w[0];
@@ -348,7 +369,7 @@ int main(int argc, char **argv)
                                             solutions[3], solutions[4], solutions[5]);
     double max_linear_vell = 0;
     double temp_linear_vell = 0;
-    for (int k=0; k<8; k++) {
+    for (int k=0; k<10; k++) {
       ctv[k*3+0] = vell_mat.coeff(k*3+0,0);
       ctv[k*3+1] = vell_mat.coeff(k*3+1,0);
       ctv[k*3+2] = vell_mat.coeff(k*3+2,0);
@@ -366,7 +387,7 @@ int main(int argc, char **argv)
     double alpha = 0.8; //v_mpc_lim = alpha^2.*((min_dist_arr+spheres_dist).^2-spheres_dist.^2);
 
     double sqrt_temp_value = 0.00;
-    for (int i=0;i<8;i++) {
+    for (int i=0; i<10; i++) {
       sqrt_temp_value = (min_dist[i]+spheres_dist[i])*(min_dist[i]+spheres_dist[i])-spheres_dist[i]*spheres_dist[i];
 
       if (sqrt_temp_value<0) lin_vell_limit_arr[i] = 0.00000000000000;
@@ -386,7 +407,7 @@ int main(int argc, char **argv)
     std_msgs::Float64MultiArray joint_vel_values;
     joint_vel_values.data.clear();
     for (int i = 0; i < 6; i++) joint_vel_values.data.push_back(solutions[i]);
-    for (int i = 0; i < 24; i++) joint_vel_values.data.push_back(ctp[i]);
+    for (int i = 0; i < 30; i++) joint_vel_values.data.push_back(ctp[i]);
 
     my_follower.SendVelocity(joint_vel_values);
     
@@ -396,13 +417,15 @@ int main(int argc, char **argv)
       myfile <<ctp[0]<<" "<<ctp[1]<<" "<<ctp[2]<<" "<<ctp[3]<<" "<<ctp[4]<<" "<<ctp[5]<<" "<<ctp[6]<<" "<<ctp[7]<<" ";
       myfile <<ctp[8]<<" "<<ctp[9]<<" "<<ctp[10]<<" " <<ctp[11]<< " " <<ctp[12]<<" " <<ctp[13]<<" " <<ctp[14]<<" ";
       myfile <<ctp[15]<<" "<<ctp[16]<<" "<<ctp[17]<<" "<<ctp[18]<<" "<<ctp[19]<<" "<<ctp[20]<<" "<<ctp[21]<<" ";
-      myfile <<ctp[22]<<" "<<ctp[23]<<" "<<my_follower.ctp_vrep[0]<<" "<<my_follower.ctp_vrep[1]<<" "<<my_follower.ctp_vrep[2]<<" ";
+      myfile <<ctp[22]<<" "<<ctp[23]<<" "<<ctp[24]<<" "<<ctp[25]<<" "<<ctp[26]<<" "<<ctp[27]<<" "<<ctp[28]<<" "<<ctp[29]<<" ";
+      myfile <<my_follower.ctp_vrep[0]<<" "<<my_follower.ctp_vrep[1]<<" "<<my_follower.ctp_vrep[2]<<" ";
       myfile <<my_follower.ctp_vrep[3]<<" "<<my_follower.ctp_vrep[4]<<" "<<my_follower.ctp_vrep[5]<<" "<<my_follower.ctp_vrep[6]<<" ";
       myfile <<my_follower.ctp_vrep[7]<<" "<<my_follower.ctp_vrep[8]<<" "<<my_follower.ctp_vrep[9]<<" "<<my_follower.ctp_vrep[10]<<" ";
       myfile <<my_follower.ctp_vrep[11]<<" "<<my_follower.ctp_vrep[12]<<" "<<my_follower.ctp_vrep[13]<<" "<<my_follower.ctp_vrep[14]<<" ";
       myfile <<my_follower.ctp_vrep[15]<<" "<<my_follower.ctp_vrep[16]<<" "<<my_follower.ctp_vrep[17]<<" "<<my_follower.ctp_vrep[18]<<" ";
       myfile <<my_follower.ctp_vrep[19]<<" "<<my_follower.ctp_vrep[20]<<" "<<my_follower.ctp_vrep[21]<<" "<<my_follower.ctp_vrep[22]<<" ";
-      myfile <<my_follower.ctp_vrep[23]<<" ";
+      myfile <<my_follower.ctp_vrep[23]<<" "<<my_follower.ctp_vrep[24]<<" "<<my_follower.ctp_vrep[25]<<" "<<my_follower.ctp_vrep[26]<<" ";
+      myfile <<my_follower.ctp_vrep[27]<<" "<<my_follower.ctp_vrep[28]<<" "<<my_follower.ctp_vrep[29]<<" ";
       myfile <<dist_val[0]<<" "<<dist_val[1]<<" "<<dist_val[2]<<" "<<dist_val[3]<<" "<<dist_val[4]<<" "<<dist_val[5]<<" ";
       myfile <<dist_val[6]<<" "<<dist_val[7]<<" "<<dist_val[8]<<" "<<dist_val[9]<<" "<<dist_val[10]<<" "<<dist_val[11]<<" ";
       myfile <<dist_val[12]<<" "<<dist_val[13]<<" "<<dist_val[14]<<" "<<dist_val[15]<<" "<<dist_val[16]<<" "<<dist_val[17]<<" ";
@@ -421,7 +444,12 @@ int main(int argc, char **argv)
       myfile <<dist_val[90]<<" "<<dist_val[91]<<" "<<dist_val[92]<<" "<<dist_val[93]<<" "<<dist_val[94]<<" "<<dist_val[95]<<" ";
       myfile <<dist_val[96]<<" "<<dist_val[97]<<" "<<dist_val[98]<<" "<<dist_val[99]<<" "<<dist_val[100]<<" "<<dist_val[101]<<" ";
       myfile <<dist_val[102]<<" "<<dist_val[103]<<" "<<dist_val[104]<<" "<<dist_val[105]<<" "<<dist_val[106]<<" "<<dist_val[107]<<" ";
-      myfile <<dist_val[108]<<" "<<dist_val[109]<<" "<<dist_val[110]<<" "<<dist_val[111]<<" "<<my_follower.dist_vrep[0]<<" ";
+      myfile <<dist_val[108]<<" "<<dist_val[109]<<" "<<dist_val[110]<<" "<<dist_val[111]<<" "<<dist_val[112]<<" "<<dist_val[113]<<" ";
+      myfile <<dist_val[114]<<" "<<dist_val[115]<<" "<<dist_val[116]<<" "<<dist_val[117]<<" "<<dist_val[118]<<" "<<dist_val[119]<<" ";
+      myfile <<dist_val[120]<<" "<<dist_val[121]<<" "<<dist_val[122]<<" "<<dist_val[123]<<" "<<dist_val[124]<<" "<<dist_val[125]<<" ";
+      myfile <<dist_val[126]<<" "<<dist_val[127]<<" "<<dist_val[128]<<" "<<dist_val[129]<<" "<<dist_val[130]<<" "<<dist_val[131]<<" ";
+      myfile <<dist_val[132]<<" "<<dist_val[133]<<" "<<dist_val[134]<<" "<<dist_val[135]<<" "<<dist_val[136]<<" "<<dist_val[137]<<" ";
+      myfile <<dist_val[138]<<" "<<dist_val[139]<<" "<<my_follower.dist_vrep[0]<<" ";
       myfile <<my_follower.dist_vrep[1]<<" "<<my_follower.dist_vrep[2]<<" "<<my_follower.dist_vrep[3]<<" "<<my_follower.dist_vrep[4]<<" ";
       myfile <<my_follower.dist_vrep[5]<<" "<<my_follower.dist_vrep[6]<<" "<<my_follower.dist_vrep[7]<<" "<<my_follower.dist_vrep[8]<<" ";
       myfile <<my_follower.dist_vrep[9]<<" "<<my_follower.dist_vrep[10]<<" "<<my_follower.dist_vrep[11]<<" "<<my_follower.dist_vrep[12]<<" ";
@@ -449,7 +477,14 @@ int main(int argc, char **argv)
       myfile <<my_follower.dist_vrep[97]<<" "<<my_follower.dist_vrep[98]<<" "<<my_follower.dist_vrep[99]<<" "<<my_follower.dist_vrep[100]<<" ";
       myfile <<my_follower.dist_vrep[101]<<" "<<my_follower.dist_vrep[102]<<" "<<my_follower.dist_vrep[103]<<" "<<my_follower.dist_vrep[104]<<" ";
       myfile <<my_follower.dist_vrep[105]<<" "<<my_follower.dist_vrep[106]<<" "<<my_follower.dist_vrep[107]<<" "<<my_follower.dist_vrep[108]<<" ";
-      myfile <<my_follower.dist_vrep[109]<<" "<<my_follower.dist_vrep[110]<<" "<<my_follower.dist_vrep[111]<<" ";
+      myfile <<my_follower.dist_vrep[109]<<" "<<my_follower.dist_vrep[110]<<" "<<my_follower.dist_vrep[111]<<" "<<my_follower.dist_vrep[112]<<" ";
+      myfile <<my_follower.dist_vrep[113]<<" "<<my_follower.dist_vrep[114]<<" "<<my_follower.dist_vrep[115]<<" "<<my_follower.dist_vrep[116]<<" ";
+      myfile <<my_follower.dist_vrep[117]<<" "<<my_follower.dist_vrep[118]<<" "<<my_follower.dist_vrep[119]<<" "<<my_follower.dist_vrep[120]<<" ";
+      myfile <<my_follower.dist_vrep[121]<<" "<<my_follower.dist_vrep[122]<<" "<<my_follower.dist_vrep[123]<<" "<<my_follower.dist_vrep[124]<<" ";
+      myfile <<my_follower.dist_vrep[125]<<" "<<my_follower.dist_vrep[126]<<" "<<my_follower.dist_vrep[127]<<" "<<my_follower.dist_vrep[128]<<" ";
+      myfile <<my_follower.dist_vrep[129]<<" "<<my_follower.dist_vrep[130]<<" "<<my_follower.dist_vrep[131]<<" "<<my_follower.dist_vrep[132]<<" ";
+      myfile <<my_follower.dist_vrep[133]<<" "<<my_follower.dist_vrep[134]<<" "<<my_follower.dist_vrep[135]<<" "<<my_follower.dist_vrep[136]<<" ";
+      myfile <<my_follower.dist_vrep[137]<<" "<<my_follower.dist_vrep[138]<<" "<<my_follower.dist_vrep[139]<<" ";
       myfile <<my_follower.human_sphere[0]<<" "<<my_follower.human_sphere[1]<<" "<<my_follower.human_sphere[2]<<" ";
       myfile <<my_follower.human_sphere[4]<<" "<<my_follower.human_sphere[5]<<" "<<my_follower.human_sphere[6]<<" ";
       myfile <<my_follower.human_sphere[8]<<" "<<my_follower.human_sphere[9]<<" "<<my_follower.human_sphere[10]<<" ";
@@ -485,17 +520,20 @@ int main(int argc, char **argv)
       myfile <<my_follower.joint_speed[2]<<" "<<my_follower.joint_speed[3]<<" "<<my_follower.joint_speed[4]<<" ";
       myfile <<my_follower.joint_speed[5]<<" "<<solutions[0]<<" " <<solutions[1]<<" "<<solutions[2]<<" "<<solutions[3]<<" ";
       myfile <<solutions[4]<<" "<<solutions[5]<<" "<<min_dist[0]<<" "<<min_dist[1]<<" "<<min_dist[2]<<" "<<min_dist[3]<<" ";
-      myfile <<min_dist[4]<<" "<<min_dist[5]<<" "<<min_dist[6]<<" "<<min_dist[7]<<" ";
+      myfile <<min_dist[4]<<" "<<min_dist[5]<<" "<<min_dist[6]<<" "<<min_dist[7]<<" "<<min_dist[8]<<" "<<min_dist[9]<<" ";
       myfile <<my_follower.real_q_goal[0]<<" "<<my_follower.real_q_goal[1]<<" "<<my_follower.real_q_goal[2]<<" "<<my_follower.real_q_goal[3]<<" "<<my_follower.real_q_goal[4]<<" "<<my_follower.real_q_goal[5]<<" ";
       myfile <<ctv[0]<<" "<<ctv[1]<<" "<<ctv[2]<<" "<<ctv[3]<<" "<<ctv[4]<<" "<<ctv[5]<<" "<<ctv[6]<<" "<<ctv[7]<<" "<<ctv[8]<<" ";
       myfile <<ctv[9]<<" "<<ctv[10]<<" "<<ctv[11]<<" "<<ctv[12]<<" "<<ctv[13]<<" "<<ctv[14]<<" "<<ctv[15]<<" "<<ctv[16]<<" ";
-      myfile <<ctv[17]<<" "<<ctv[18]<<" "<<ctv[19]<<" "<<ctv[20]<<" "<<ctv[21]<<" "<<ctv[22]<<" "<<ctv[23]<<" "<<my_follower.ctv_vrep[0]<<" ";
-      myfile <<my_follower.ctv_vrep[1]<<" "<<my_follower.ctv_vrep[2]<<" "<<my_follower.ctv_vrep[3]<<" "<<my_follower.ctv_vrep[4]<<" ";
-      myfile <<my_follower.ctv_vrep[5]<<" "<<my_follower.ctv_vrep[6]<<" "<<my_follower.ctv_vrep[7]<<" "<<my_follower.ctv_vrep[8]<<" ";
-      myfile <<my_follower.ctv_vrep[9]<<" "<<my_follower.ctv_vrep[10]<<" "<<my_follower.ctv_vrep[11]<<" "<<my_follower.ctv_vrep[12]<<" ";
-      myfile <<my_follower.ctv_vrep[13]<<" "<<my_follower.ctv_vrep[14]<<" "<<my_follower.ctv_vrep[15]<<" "<<my_follower.ctv_vrep[16]<<" ";
-      myfile <<my_follower.ctv_vrep[17]<<" "<<my_follower.ctv_vrep[18]<<" "<<my_follower.ctv_vrep[19]<<" "<<my_follower.ctv_vrep[20]<<" ";
-      myfile<<my_follower.ctv_vrep[21]<<" "<<my_follower.ctv_vrep[22]<<" "<<my_follower.ctv_vrep[23]<<" "<<smallest_dist<<" ";
+      myfile <<ctv[17]<<" "<<ctv[18]<<" "<<ctv[19]<<" "<<ctv[20]<<" "<<ctv[21]<<" "<<ctv[22]<<" "<<ctv[23]<<" "<<ctv[24]<<" ";
+      myfile <<ctv[25]<<" "<<ctv[26]<<" "<<ctv[27]<<" "<<ctv[28]<<" "<<ctv[29]<<" ";
+      myfile <<my_follower.ctv_vrep[0]<<" "<<my_follower.ctv_vrep[1]<<" "<<my_follower.ctv_vrep[2]<<" "<<my_follower.ctv_vrep[3]<<" ";
+      myfile <<my_follower.ctv_vrep[4]<<" "<<my_follower.ctv_vrep[5]<<" "<<my_follower.ctv_vrep[6]<<" "<<my_follower.ctv_vrep[7]<<" ";
+      myfile <<my_follower.ctv_vrep[8]<<" "<<my_follower.ctv_vrep[9]<<" "<<my_follower.ctv_vrep[10]<<" "<<my_follower.ctv_vrep[11]<<" ";
+      myfile <<my_follower.ctv_vrep[12]<<" "<<my_follower.ctv_vrep[13]<<" "<<my_follower.ctv_vrep[14]<<" "<<my_follower.ctv_vrep[15]<<" ";
+      myfile <<my_follower.ctv_vrep[16]<<" "<<my_follower.ctv_vrep[17]<<" "<<my_follower.ctv_vrep[18]<<" "<<my_follower.ctv_vrep[19]<<" ";
+      myfile <<my_follower.ctv_vrep[20]<<" "<<my_follower.ctv_vrep[21]<<" "<<my_follower.ctv_vrep[22]<<" "<<my_follower.ctv_vrep[23]<<" ";
+      myfile <<my_follower.ctv_vrep[24]<<" "<<my_follower.ctv_vrep[25]<<" "<<my_follower.ctv_vrep[26]<<" "<<my_follower.ctv_vrep[27]<<" ";
+      myfile <<my_follower.ctv_vrep[28]<<" "<<my_follower.ctv_vrep[29]<<" "<<smallest_dist<<" ";
       myfile<<lin_vell_scale<<" "<<my_follower.from_high[0]<<" "<<my_follower.from_high[1]<<" "<<my_follower.from_high[2]<<" ";
       myfile<<my_follower.from_high[3]<<" "<<my_follower.from_high[4]<<" "<<my_follower.from_high[5]<<" "<<my_follower.from_high[6]<<" ";
       myfile<<my_follower.from_high[7]<<" "<<my_follower.from_high[8]<<" "<<my_follower.from_high[9]<<" "<<my_follower.from_high[10]<<" ";

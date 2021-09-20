@@ -4,28 +4,28 @@ clc
 cd /home/robot/workspaces/ur5_mpc_vrep
 low = load('data_low.csv');
 
-ctp_f = low(:,1:24);
-ctp_v = low(:,25:48);
-dist_val = low(:,49:160);
-dist_vrep = low(:,161:272);
-human_sphere = low(:,273:314);
-human_vrep = low(:,315:356);
+ctp_f = low(:,1:30);
+ctp_v = low(:,31:60);
+dist_val = low(:,61:200);
+dist_vrep = low(:,201:340);
+human_sphere = low(:,341:382);
+human_vrep = low(:,383:424);
 
-joint_positions = low(:,357:362);
-goal_positions =  low(:,363:368);
-q_dot_real = low(:,369:374);
-q_dot =  low(:,375:380);
-min_dist = low(:,381:388);
+joint_positions = low(:,425:430);
+goal_positions =  low(:,431:436);
+q_dot_real = low(:,437:442);
+q_dot =  low(:,443:448);
+min_dist = low(:,449:458);
 
-goal = low(:,389:394);
+goal = low(:,459:464);
 
-ctv = low(:,395:418);
-ctv_vrep = low(:,419:442);
-smallest_distance = low(:,443);
+ctv = low(:,465:494);
+ctv_vrep = low(:,495:524);
+smallest_distance = low(:,525);
 
-linvelscale = low(:,444);
+linvelscale = low(:,526);
 
-from_high = low(:,445:462);
+from_high = low(:,527:544);
 
 high_vel = from_high(:,1:12);
 pos = from_high(:,13:18)
@@ -34,157 +34,157 @@ dt = 1000;
 s = 10;
 e = length(goal);
 % e = 500;
-%% Plot joint positions Vs Goal Positions
-fig_0 = figure('Name', 'HIGH controller: initial poses')
-subplot(3,2,1);
-grid on;
-hold on;
-plot(pos(s:e,1))
-title('joint_{1}')
-set(gca,'XTick',0:dt:dt*len);
-set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
-
-subplot(3,2,2);
-grid on
-hold on;
-plot(pos(s:e,2));
-title('joint_{2}')
-set(gca,'XTick',0:dt:dt*len);
-set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
-
-subplot(3,2,3);
-hold on;
-grid on;
-plot(pos(s:e,3));
-title('joint_{3}')
-set(gca,'XTick',0:dt:dt*len);
-set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
-
-subplot(3,2,4);
-grid on;
-hold on;
-plot(pos(s:e,4));
-title('joint_{4}')
-set(gca,'XTick',0:dt:dt*len);
-set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
-
-subplot(3,2,5);
-grid on;
-hold on;
-plot(pos(s:e,5));
-title('joint_{5}')
-set(gca,'XTick',0:dt:dt*len);
-set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
-
-subplot(3,2,6);
-hold on;
-grid on;
-plot(pos(s:e,6));
-title('joint_{6}')
-set(gca,'XTick',0:dt:dt*len);
-set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
-xlabel('time, seconds')
-
-%% Plot joint positions Vs Goal Positions
-fig_1 = figure('Name', 'High controller: vels 0 - 6')
-subplot(3,2,1);
-grid on;
-hold on;
-plot(high_vel(s:e,1))
-title('joint_{1}')
-set(gca,'XTick',0:dt:dt*len);
-set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
-
-subplot(3,2,2);
-grid on
-hold on;
-plot(high_vel(s:e,2));
-title('joint_{2}')
-set(gca,'XTick',0:dt:dt*len);
-set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
-
-subplot(3,2,3);
-hold on;
-grid on;
-plot(high_vel(s:e,3));
-title('joint_{3}')
-set(gca,'XTick',0:dt:dt*len);
-set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
-
-subplot(3,2,4);
-grid on;
-hold on;
-plot(high_vel(s:e,4));
-title('joint_{4}')
-set(gca,'XTick',0:dt:dt*len);
-set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
-
-subplot(3,2,5);
-grid on;
-hold on;
-plot(high_vel(s:e,5));
-title('joint_{5}')
-set(gca,'XTick',0:dt:dt*len);
-set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
-
-subplot(3,2,6);
-hold on;
-grid on;
-plot(high_vel(s:e,6));
-title('joint_{6}')
-set(gca,'XTick',0:dt:dt*len);
-set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
-xlabel('time, seconds')
-
-fig_2 = figure('Name', 'High controller: vels 7:12')
-subplot(3,2,1);
-grid on;
-hold on;
-plot(high_vel(s:e,7))
-title('joint_{1}')
-set(gca,'XTick',0:dt:dt*len);
-set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
-
-subplot(3,2,2);
-grid on
-hold on;
-plot(high_vel(s:e,8));
-title('joint_{2}')
-set(gca,'XTick',0:dt:dt*len);
-set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
-
-subplot(3,2,3);
-hold on;
-grid on;
-plot(high_vel(s:e,9));
-title('joint_{3}')
-set(gca,'XTick',0:dt:dt*len);
-set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
-
-subplot(3,2,4);
-grid on;
-hold on;
-plot(high_vel(s:e,10));
-title('joint_{4}')
-set(gca,'XTick',0:dt:dt*len);
-set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
-
-subplot(3,2,5);
-grid on;
-hold on;
-plot(high_vel(s:e,11));
-title('joint_{5}')
-set(gca,'XTick',0:dt:dt*len);
-set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
-
-subplot(3,2,6);
-hold on;
-grid on;
-plot(high_vel(s:e,12));
-title('joint_{6}')
-set(gca,'XTick',0:dt:dt*len);
-set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
-xlabel('time, seconds')
+% %% Plot joint positions Vs Goal Positions
+% fig_0 = figure('Name', 'HIGH controller: initial poses')
+% subplot(3,2,1);
+% grid on;
+% hold on;
+% plot(pos(s:e,1))
+% title('joint_{1}')
+% set(gca,'XTick',0:dt:dt*len);
+% set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+% 
+% subplot(3,2,2);
+% grid on
+% hold on;
+% plot(pos(s:e,2));
+% title('joint_{2}')
+% set(gca,'XTick',0:dt:dt*len);
+% set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+% 
+% subplot(3,2,3);
+% hold on;
+% grid on;
+% plot(pos(s:e,3));
+% title('joint_{3}')
+% set(gca,'XTick',0:dt:dt*len);
+% set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+% 
+% subplot(3,2,4);
+% grid on;
+% hold on;
+% plot(pos(s:e,4));
+% title('joint_{4}')
+% set(gca,'XTick',0:dt:dt*len);
+% set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+% 
+% subplot(3,2,5);
+% grid on;
+% hold on;
+% plot(pos(s:e,5));
+% title('joint_{5}')
+% set(gca,'XTick',0:dt:dt*len);
+% set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+% 
+% subplot(3,2,6);
+% hold on;
+% grid on;
+% plot(pos(s:e,6));
+% title('joint_{6}')
+% set(gca,'XTick',0:dt:dt*len);
+% set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+% xlabel('time, seconds')
+% 
+% %% Plot joint positions Vs Goal Positions
+% fig_1 = figure('Name', 'High controller: vels 0 - 6')
+% subplot(3,2,1);
+% grid on;
+% hold on;
+% plot(high_vel(s:e,1))
+% title('joint_{1}')
+% set(gca,'XTick',0:dt:dt*len);
+% set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+% 
+% subplot(3,2,2);
+% grid on
+% hold on;
+% plot(high_vel(s:e,2));
+% title('joint_{2}')
+% set(gca,'XTick',0:dt:dt*len);
+% set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+% 
+% subplot(3,2,3);
+% hold on;
+% grid on;
+% plot(high_vel(s:e,3));
+% title('joint_{3}')
+% set(gca,'XTick',0:dt:dt*len);
+% set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+% 
+% subplot(3,2,4);
+% grid on;
+% hold on;
+% plot(high_vel(s:e,4));
+% title('joint_{4}')
+% set(gca,'XTick',0:dt:dt*len);
+% set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+% 
+% subplot(3,2,5);
+% grid on;
+% hold on;
+% plot(high_vel(s:e,5));
+% title('joint_{5}')
+% set(gca,'XTick',0:dt:dt*len);
+% set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+% 
+% subplot(3,2,6);
+% hold on;
+% grid on;
+% plot(high_vel(s:e,6));
+% title('joint_{6}')
+% set(gca,'XTick',0:dt:dt*len);
+% set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+% xlabel('time, seconds')
+% 
+% fig_2 = figure('Name', 'High controller: vels 7:12')
+% subplot(3,2,1);
+% grid on;
+% hold on;
+% plot(high_vel(s:e,7))
+% title('joint_{1}')
+% set(gca,'XTick',0:dt:dt*len);
+% set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+% 
+% subplot(3,2,2);
+% grid on
+% hold on;
+% plot(high_vel(s:e,8));
+% title('joint_{2}')
+% set(gca,'XTick',0:dt:dt*len);
+% set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+% 
+% subplot(3,2,3);
+% hold on;
+% grid on;
+% plot(high_vel(s:e,9));
+% title('joint_{3}')
+% set(gca,'XTick',0:dt:dt*len);
+% set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+% 
+% subplot(3,2,4);
+% grid on;
+% hold on;
+% plot(high_vel(s:e,10));
+% title('joint_{4}')
+% set(gca,'XTick',0:dt:dt*len);
+% set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+% 
+% subplot(3,2,5);
+% grid on;
+% hold on;
+% plot(high_vel(s:e,11));
+% title('joint_{5}')
+% set(gca,'XTick',0:dt:dt*len);
+% set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+% 
+% subplot(3,2,6);
+% hold on;
+% grid on;
+% plot(high_vel(s:e,12));
+% title('joint_{6}')
+% set(gca,'XTick',0:dt:dt*len);
+% set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
+% xlabel('time, seconds')
 
 
 %% Plot joint positions Vs Goal Positions
@@ -245,7 +245,7 @@ set(gca,'XTickLabel',0:0.05*dt:len*dt*0.05);
 xlabel('time, seconds')
 
 % Construct a Legend with the data from the sub-plots
-hL = legend([l1,l2],["JP from low", "controller goal"]);
+hL = legend([l1,l2],["Q", "Goal"]);
 % Programatically move the Legend
 newPosition = [0.45 0.1 0.1 0.1];
 newUnits = 'normalized';

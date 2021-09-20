@@ -45,7 +45,7 @@ void chatterCallback(const std_msgs::Float64MultiArray msg)
     point_array_temp[i*4+1] = msg.data[i*3+1];
     point_array_temp[i*4+2] = msg.data[i*3+2];
     //vrep diff:
-    point_array_temp[i*4+3] = sphere_radi[i]-0.43;
+    point_array_temp[i*4+3] = sphere_radi[i]-0.4;
   }
 }
 
@@ -54,16 +54,16 @@ int main(int argc, char **argv)
   ros::init(argc, argv, "human_control");
   ros::NodeHandle nodeHandle("~");
   ros::NodeHandle n;
-  ros::Subscriber sub = n.subscribe<std_msgs::Float64MultiArray>("/Obstacle/human_spheres", 1, chatterCallback);
+  ros::Subscriber sub = n.subscribe<std_msgs::Float64MultiArray>("/CoppeliaSim/humanRealPositions", 1, chatterCallback);
   ros:: Publisher chatter_low = n.advertise<std_msgs::Float64MultiArray>("/Obstacle/mpc_low_spheres", 1);
   ros:: Publisher chatter_high = n.advertise<std_msgs::Float64MultiArray>("/Obstacle/mpc_high_spheres", 1);
 
   while (ros::ok())
   {
     for (int i = 0; i<14; i++) {
-      point_array[i*4] = point_array_temp[i*4]+1; // x offset
-      point_array[i*4+1] = point_array_temp[i*4+1]+0.5; // y offset
-      point_array[i*4+2] = point_array_temp[i*4+2]-1.2; // z offset
+      point_array[i*4] = point_array_temp[i*4]; // x offset
+      point_array[i*4+1] = point_array_temp[i*4+1]; // y offset
+      point_array[i*4+2] = point_array_temp[i*4+2]; // z offset
       point_array[i*4+3] = point_array_temp[i*4+3];
     }
     // ROS_INFO("Np11 %.3f %.3f %.3f %.3f", point_array[44], point_array[45], point_array[46], point_array[47]);
