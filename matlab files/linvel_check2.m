@@ -3,11 +3,11 @@
 % clc
 cd /home/robot/workspaces/ur5_mpc_vrep
 low = load('data_low.csv');
-s=10;
+s=100;
 [m,mm] = size(low);
 % m = 3180
-formula_linvel = low(s:m,395:418);
-vrep_linvel =  low(s:m,419:442);
+formula_linvel = low(s:m,465:494);
+vrep_linvel = low(s:m,495:524);
 diff = formula_linvel-vrep_linvel;
 max_diff = max(diff)
   %% Plot cposes

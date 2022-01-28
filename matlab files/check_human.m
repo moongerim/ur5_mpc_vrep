@@ -3,9 +3,10 @@ close all
 clc
 cd /home/robot/workspaces/ur5_mpc_vrep
 low = load('data_low.csv');
-
-formula_human = low(6:end,273:314);
-vrep_human = low(6:end,315:356);
+s=100;
+[m,mm] = size(low);
+formula_human = low(s:m,341:382);
+vrep_human = low(s:m,383:424);
 
 %% Plot cposes
 len = 100;
