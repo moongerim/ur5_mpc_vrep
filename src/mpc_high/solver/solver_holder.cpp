@@ -7,15 +7,15 @@
 #include "ros/ros.h"
 
 /* Some convenient definitions. */
-#define NX          ACADO_NX  /* Number of differential state variables.  */
+#define NX          ACADO_NX  /* Number of differential state variables.  17*/
 #define NXA         ACADO_NXA /* Number of algebraic variables. */
-#define NU          ACADO_NU  /* Number of control inputs. */
-#define NOD         ACADO_NOD  /* Number of online data values. */
+#define NU          ACADO_NU  /* Number of control inputs. 17 */
+#define NOD         ACADO_NOD  /* Number of online data values. 59 */
 
-#define NY          ACADO_NY  /* Number of measurements/references on nodes 0..N - 1. */
-#define NYN         ACADO_NYN /* Number of measurements/references on node N. */
+#define NY          ACADO_NY  /* Number of measurements/references on nodes 0..N - 1. 23 */
+#define NYN         ACADO_NYN /* Number of measurements/references on node N. 6 */
 
-#define N           ACADO_N   /* Number of intervals in the horizon. */
+#define N           ACADO_N   /* Number of intervals in the horizon. 10 */
 
 //#define NUM_STEPS   5        /* Number of real-time iterations. */
 //#define VERBOSE     0         /* Show iterations: 1, silent: 0.  */
@@ -120,7 +120,7 @@ double * MPC_solver::solve_mpc(double input_arr[68], double cgoal[3]) {
 	real_t te = acado_toc( &t );
 	real_t KKT_val = acado_getKKT();
 
-	ROS_INFO("Time: %.3g ms; KKT = %.3e", 1e3 * te, KKT_val);
+	ROS_INFO("Time: %.3g ms; KKT = %.3e; ", 1e3 * te, KKT_val);
 
 	static double joint_commands[15];
     joint_commands[14] = 0;  // infisibility marker
